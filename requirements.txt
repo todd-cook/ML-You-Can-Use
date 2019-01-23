@@ -1,0 +1,7 @@
+cltk
+ipykernel
+matplotlib
+sklearn
+tqdm
+jupyter
+pytest
