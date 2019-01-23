@@ -1,6 +1,8 @@
 """`corpus_analysis_fun.py` - methods for analysing a corpus"""
+import statistics
 from collections import Counter, defaultdict
-from building_language_model.aeoe_replacer import AEOEReplacer
+
+from aeoe_replacer import AEOEReplacer
 
 from cltk.stem.latin.j_v import JVReplacer
 from tqdm import tqdm
@@ -62,3 +64,12 @@ def get_split_words (corpus_reader, word_trie):
                 if len(word_list)==2:
                     split_words[file].append(word_list)
     return split_words
+
+def get_mean_stdev(mycounter):
+    """
+    Return the mean, stdev for a counter of integers
+    """
+    all_lens = []
+    for key in mycounter:
+        all_lens += [key] * mycounter[key]
+    return statistics.mean(all_lens), statistics.stdev(all_lens)

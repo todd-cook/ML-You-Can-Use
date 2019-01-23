@@ -19,3 +19,11 @@ mkdir p37
 ### Interactivity
 ``juypter notebook``
 
+##Recommended Sequence
+
+* [1. Assessing corpus quality ](building_language_model/assessing_corpus_quality.ipynb)
+* [2. Making a Frequency Distribution](building_language_model/make_frequency_distribution.ipynb)
+* [3. Making a Trie_Language Model](building_language_model/make_trie_language_model.ipynb)
+* [4. Bootstrapping - Classifying Corpus Documents ](bootstrapping_classification/corpus_doc_classify.ipynb)
+* [5. The Problem of Loanwords, and a Solution](detecting_loanwords/loanwords_problems_solutions.ipynb)
+
