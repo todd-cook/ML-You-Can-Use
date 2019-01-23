@@ -11,7 +11,7 @@ mkdir p37
 ```
 ### Install Requirements
 
-pip install -r requirements.txt
+``pip install -r requirements.txt``
 
 ### Testing
 `` pytest --doctest-modules .``
