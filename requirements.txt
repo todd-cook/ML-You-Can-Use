@@ -5,3 +5,13 @@ sklearn
 tqdm
 jupyter
 pytest
+joblib
+nltk
+matplotlib-venn
+coverage
+pytest-cov
+mypy
+pytest-mypy
+pylint
+pytest-pylint
+yapf

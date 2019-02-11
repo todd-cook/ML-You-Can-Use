@@ -1,0 +1,398 @@
+{
+  "provenance_data": "is_transliterated_greek.mdl.0.20.2.joblib.prov.json",
+  "date_created": "2019-02-10 15:17:22.121848",
+  "model_parameters": {
+    "criterion": "entropy",
+    "max_features": 0.3,
+    "n_estimators": 700
+  },
+  "max_word_length": 25,
+  "num_samples": 72709,
+  "num_features": 25,
+  "library_version": "0.20.2",
+  "classifier_class": "<class 'sklearn.ensemble.forest.RandomForestClassifier'>",
+  "classifier_best_score": 0.9446973552104967,
+  "data_files": {
+    "1": {
+      "filename": "bc1.txt",
+      "md5": "3bbb7a0755de2c548bd42a286374d809"
+    },
+    "2": {
+      "filename": "bc2.txt",
+      "md5": "1d41b8371fb64407bf2701fc2567d8c3"
+    },
+    "3": {
+      "filename": "bc3.txt",
+      "md5": "43ba4f905803f74a6c7c79ceec5b991f"
+    },
+    "4": {
+      "filename": "bellafr.txt",
+      "md5": "e42fb6ac2b7b5060bad4d86cbdef6d53"
+    },
+    "5": {
+      "filename": "gall1.txt",
+      "md5": "1b4bf3b593e6a7d33dadc518719e3e8d"
+    },
+    "6": {
+      "filename": "gall2.txt",
+      "md5": "ad7deff6f37a869c095b66ec5f974fec"
+    },
+    "7": {
+      "filename": "gall3.txt",
+      "md5": "a68dadc4d308e1e47ca714a00b9db36c"
+    },
+    "8": {
+      "filename": "gall4.txt",
+      "md5": "5d59a6fc9d6d66c7f505d208e9b90eaa"
+    },
+    "9": {
+      "filename": "gall5.txt",
+      "md5": "875b11f7ba474f2e682ebf57cdf2af91"
+    },
+    "10": {
+      "filename": "gall6.txt",
+      "md5": "e8645e46f3a8ed30fba3ad582cd6bb84"
+    },
+    "11": {
+      "filename": "gall7.txt",
+      "md5": "db56d8ca46c77ee856e6c2ea72556579"
+    },
+    "12": {
+      "filename": "gall8.txt",
+      "md5": "bfc174bca341688b801e1252b39c4fe8"
+    },
+    "13": {
+      "filename": "eutropius1.txt",
+      "md5": "0dba231b290b45abd77a5c49c95f5a27"
+    },
+    "14": {
+      "filename": "eutropius10.txt",
+      "md5": "d41751aec253d7168bd0bb7ff961c794"
+    },
+    "15": {
+      "filename": "eutropius2.txt",
+      "md5": "40600e2dcf920c695eb4cac484635a7a"
+    },
+    "16": {
+      "filename": "eutropius3.txt",
+      "md5": "1b2a672fc1432c5dac2b4283f072b338"
+    },
+    "17": {
+      "filename": "eutropius4.txt",
+      "md5": "d76caf78179cc29fdc6847010d0b76e8"
+    },
+    "18": {
+      "filename": "eutropius5.txt",
+      "md5": "d63d9bfef33046d4d047319b4b004a84"
+    },
+    "19": {
+      "filename": "eutropius6.txt",
+      "md5": "3235ad10251940c0119bc257625274c3"
+    },
+    "20": {
+      "filename": "eutropius7.txt",
+      "md5": "731dc1b29e08b7261b0c165dcfcfb793"
+    },
+    "21": {
+      "filename": "eutropius8.txt",
+      "md5": "16033e61f59202679367a1bb7d5919e3"
+    },
+    "22": {
+      "filename": "eutropius9.txt",
+      "md5": "48bd302b927c6379d697150dd56c9189"
+    },
+    "23": {
+      "filename": "prud1.txt",
+      "md5": "57588fae1677a2f206941f38deb345b0"
+    },
+    "24": {
+      "filename": "prud10.txt",
+      "md5": "32f15144437f2bd3d9a6ed26ffc76a19"
+    },
+    "25": {
+      "filename": "prud11.txt",
+      "md5": "1286ea56d5390e69674e0c2dea8e3ea4"
+    },
+    "26": {
+      "filename": "prud12.txt",
+      "md5": "b15f7a1c485e0084e8f3d32c0174766e"
+    },
+    "27": {
+      "filename": "prud13.txt",
+      "md5": "b8b4d17ee7bf78150a0dc5e0bfdc183a"
+    },
+    "28": {
+      "filename": "prud14.txt",
+      "md5": "228712225e89a3f1b49533d0d32da392"
+    },
+    "29": {
+      "filename": "prud2.txt",
+      "md5": "38a6f1cc241547c79aeb7a1c25f8509d"
+    },
+    "30": {
+      "filename": "prud3.txt",
+      "md5": "bee85a06ab5df2134b9a2b9205c1d965"
+    },
+    "31": {
+      "filename": "prud4.txt",
+      "md5": "08871540d4d70703402b9c7ba036d92d"
+    },
+    "32": {
+      "filename": "prud5.txt",
+      "md5": "aebf4e7ad7e51bab93d5657daea4d28c"
+    },
+    "33": {
+      "filename": "prud6.txt",
+      "md5": "9a4a6e6e75d74cc91add3e3c5a01e59b"
+    },
+    "34": {
+      "filename": "prud7.txt",
+      "md5": "966108346530f9b55bdc42532d9d8595"
+    },
+    "35": {
+      "filename": "prud8.txt",
+      "md5": "7a16e3673f6c115a8fdf8d6a0d6a0ea3"
+    },
+    "36": {
+      "filename": "prud9.txt",
+      "md5": "3e12bd972124a4507b727a69e1af91cd"
+    },
+    "37": {
+      "filename": "plato__alcibiades-1__grc.json",
+      "md5": "751fdf9b9626863d5dacacb6509d4a40"
+    },
+    "38": {
+      "filename": "plato__alcibiades-2__grc.json",
+      "md5": "dd4b96417126597098b8a96af2944e13"
+    },
+    "39": {
+      "filename": "plato__apology__grc.json",
+      "md5": "e4b546c37bac017b9890d627ec1043ff"
+    },
+    "40": {
+      "filename": "plato__charmides__grc.json",
+      "md5": "3c61ef4f4ef3e3af8072e91db49a83d0"
+    },
+    "41": {
+      "filename": "plato__cratylus__grc.json",
+      "md5": "51b914a758394750b76732ea39491eb2"
+    },
+    "42": {
+      "filename": "plato__crito__grc.json",
+      "md5": "b0cd1626398dd3afbf908bfe17d50ed7"
+    },
+    "43": {
+      "filename": "plato__euthydemus__grc.json",
+      "md5": "74adeebf47d56c53c7a82883c66d18c0"
+    },
+    "44": {
+      "filename": "plato__euthyphro__grc.json",
+      "md5": "dc6b9eaca2f05d9467e3e655bbd27d38"
+    },
+    "45": {
+      "filename": "plato__hipparchus__grc.json",
+      "md5": "e913d77f04e17a4dcd051fcec55bb25a"
+    },
+    "46": {
+      "filename": "plato__laches__grc.json",
+      "md5": "9ae676aa76485db29ce62abf2316b44d"
+    },
+    "47": {
+      "filename": "plato__lovers__grc.json",
+      "md5": "ef4ba45a873378b971d3abcdcc6d56d7"
+    },
+    "48": {
+      "filename": "plato__lysis__grc.json",
+      "md5": "0c0c5e68524d10248a8cf3a9e62a6c4d"
+    },
+    "49": {
+      "filename": "plato__parmenides__grc.json",
+      "md5": "418c9f8c21ac0f1af65dedbc71938a0f"
+    },
+    "50": {
+      "filename": "plato__phaedo__grc.json",
+      "md5": "f593b5b5c114982fd1fda8779f7158d7"
+    },
+    "51": {
+      "filename": "plato__phaedrus__grc.json",
+      "md5": "7ddcaf234a08dfb6a87e0e168540833e"
+    },
+    "52": {
+      "filename": "plato__philebus__grc.json",
+      "md5": "f5098a2471ec46c33a4861e7c86d9d39"
+    },
+    "53": {
+      "filename": "plato__sophist__grc.json",
+      "md5": "ab4cbdbdcdeca510d230396151302d71"
+    },
+    "54": {
+      "filename": "plato__statesman__grc.json",
+      "md5": "9707acc3a72834aa63017a743bb3afec"
+    },
+    "55": {
+      "filename": "plato__symposium__grc.json",
+      "md5": "eafbf58e7624372a71e2cdd0d39d2525"
+    },
+    "56": {
+      "filename": "plato__theaetetus__grc.json",
+      "md5": "fd50f4a9bbdaf4ab7ccf630c5d9db223"
+    },
+    "57": {
+      "filename": "plato__theages__grc.json",
+      "md5": "53d891aa6cc8cce2eb83cc6d3ec35a18"
+    },
+    "58": {
+      "filename": "homer__odyssey__grc.json",
+      "md5": "f46270638106d2daaa0a2828cf268422"
+    },
+    "59": {
+      "filename": "homeric-hymns__hymn-1-to-dionysus__grc.json",
+      "md5": "ff88ac17a6adbeebe517971e576f6e27"
+    },
+    "60": {
+      "filename": "homeric-hymns__hymn-10-to-aphrodite__grc.json",
+      "md5": "9bbe5c96b81dd9660f4e0a8be0662ea6"
+    },
+    "61": {
+      "filename": "homeric-hymns__hymn-11-to-athena__grc.json",
+      "md5": "d3bbcacc93dbc839579a8717a46ad3e3"
+    },
+    "62": {
+      "filename": "homeric-hymns__hymn-12-to-hera__grc.json",
+      "md5": "d7248209627c5b489b63019665558cfe"
+    },
+    "63": {
+      "filename": "homeric-hymns__hymn-13-to-demeter__grc.json",
+      "md5": "fa044a41a8fecc6bba0ce18e9f49c13d"
+    },
+    "64": {
+      "filename": "homeric-hymns__hymn-14-to-the-mother-of-the-gods__grc.json",
+      "md5": "d4d7d72adb171149d136740b06a7d286"
+    },
+    "65": {
+      "filename": "homeric-hymns__hymn-15-to-heracles__grc.json",
+      "md5": "a9c509199cde7bca8405bc4b9e422bd7"
+    },
+    "66": {
+      "filename": "homeric-hymns__hymn-16-to-asclepius__grc.json",
+      "md5": "d2ef4f2efdb107980eeceb2f4943c19b"
+    },
+    "67": {
+      "filename": "homeric-hymns__hymn-17-to-the-dioscuri__grc.json",
+      "md5": "243ef6d48ed0ee0c7d224cc78bbf6f7e"
+    },
+    "68": {
+      "filename": "homeric-hymns__hymn-18-to-hermes__grc.json",
+      "md5": "9f558df2a69cb840bf6f878be0dc49f8"
+    },
+    "69": {
+      "filename": "homeric-hymns__hymn-19-to-pan__grc.json",
+      "md5": "5528b4957c582a1176834090cf800d5e"
+    },
+    "70": {
+      "filename": "homeric-hymns__hymn-2-to-demeter__grc.json",
+      "md5": "5c75d7ceb1e478998e9cf09caa8296b5"
+    },
+    "71": {
+      "filename": "homeric-hymns__hymn-20-to-hephaestus__grc.json",
+      "md5": "4f59a40d728477a5c68ed2865af81ee6"
+    },
+    "72": {
+      "filename": "homeric-hymns__hymn-21-to-apollo__grc.json",
+      "md5": "6fb6d54dc1860c619cd824c4f5d86cf7"
+    },
+    "73": {
+      "filename": "homeric-hymns__hymn-22-to-poseidon__grc.json",
+      "md5": "a16791d3134f78e99d7ca7fd6b9c42bb"
+    },
+    "74": {
+      "filename": "homeric-hymns__hymn-23-to-zeus__grc.json",
+      "md5": "086a9c28056e32599ae7a4b6761fa4e0"
+    },
+    "75": {
+      "filename": "homeric-hymns__hymn-24-to-hestia__grc.json",
+      "md5": "fc88b8a9601833a2c21cdcd7d88801b1"
+    },
+    "76": {
+      "filename": "homeric-hymns__hymn-25-to-the-muses-and-apollo__grc.json",
+      "md5": "53e24924a14265a3320e479797432523"
+    },
+    "77": {
+      "filename": "homeric-hymns__hymn-26-to-dionysus__grc.json",
+      "md5": "34446d2ae6668ee82629b6c47738e815"
+    },
+    "78": {
+      "filename": "homeric-hymns__hymn-27-to-artemis__grc.json",
+      "md5": "9cfaad773cb8232718f78c2d0a07306b"
+    },
+    "79": {
+      "filename": "homeric-hymns__hymn-28-to-athena__grc.json",
+      "md5": "229ec0914943fd5c848330e268c22105"
+    },
+    "80": {
+      "filename": "homeric-hymns__hymn-29-to-hestia__grc.json",
+      "md5": "c7e40337b22b15f623d0b6d54bc82817"
+    },
+    "81": {
+      "filename": "homeric-hymns__hymn-3-to-delian-and-pythian-apollo__grc.json",
+      "md5": "e92882a9d1e686860cb5c45bb4f97d9e"
+    },
+    "82": {
+      "filename": "homeric-hymns__hymn-30-to-earth__grc.json",
+      "md5": "f663c38411303148ed4d1349141e13c3"
+    },
+    "83": {
+      "filename": "homeric-hymns__hymn-31-to-helios__grc.json",
+      "md5": "31300fe836e4086d906ee7bd2033089f"
+    },
+    "84": {
+      "filename": "homeric-hymns__hymn-32-to-selene__grc.json",
+      "md5": "a296d0d31380776958e637f08d3dd810"
+    },
+    "85": {
+      "filename": "homeric-hymns__hymn-33-to-the-dioscuri__grc.json",
+      "md5": "a64bc1a297a83f974c0a633fe874f789"
+    },
+    "86": {
+      "filename": "homeric-hymns__hymn-4-to-hermes__grc.json",
+      "md5": "8a994c0d80e5234823b1e7c4cf2fca0b"
+    },
+    "87": {
+      "filename": "homeric-hymns__hymn-5-to-aphrodite__grc.json",
+      "md5": "0e53b784d0a0acc3b18a5c5ee6441d83"
+    },
+    "88": {
+      "filename": "homeric-hymns__hymn-6-to-aphrodite__grc.json",
+      "md5": "8ed4d1deef268e3fdfc3a15c4d529665"
+    },
+    "89": {
+      "filename": "homeric-hymns__hymn-7-to-dionysus__grc.json",
+      "md5": "8c88adbb3511b074e95b4f9b5e21f91b"
+    },
+    "90": {
+      "filename": "homeric-hymns__hymn-8-to-ares__grc.json",
+      "md5": "904d1b6c2d4f20a314b9a89e5433bdec"
+    },
+    "91": {
+      "filename": "homeric-hymns__hymn-9-to-artemis__grc.json",
+      "md5": "95ae7ea977ccd0130ac3950aade30db4"
+    }
+  },
+  "model_output_file": "is_transliterated_greek.mdl.0.20.2.joblib",
+  "model_output_md5": "8db68c7f927da2f3691fdcb9d6f94f12",
+  "labels": [
+    0.0,
+    1.0
+  ],
+  "best_score": 0.9446973552104967,
+  "best_params": {
+    "criterion": "entropy",
+    "max_features": 0.3,
+    "n_estimators": 700
+  },
+  "comment": "Transliterated Greek Classifier",
+  "code_generated_by": "loanwords_problems_solutions.ipynb",
+  "feature_encoding_fun": "word_to_features",
+  "author": "Todd Cook",
+  "sample_pipeline": "process_latin_text_pipeline.0.20.2.joblib"
+}

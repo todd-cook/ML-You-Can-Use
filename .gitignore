@@ -27,16 +27,12 @@ pip-log.txt
 
 # Unit test / coverage reports
 .coverage
+.coverage.*
 .tox
 nosetests.xml
 
 # Translations
 *.mo
-
-# Mr Developer
-.mr.developer.cfg
-.project
-.pydevproject
 
 # virtualenv
 venv
@@ -64,6 +60,9 @@ _templates
 
 # cache
 .cache
+
+# pytest
+.pytest_cache
 
 # our virtual environment
 p37
