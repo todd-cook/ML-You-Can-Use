@@ -1,4 +1,4 @@
-"""`loanword_fun.py` - some functions for loanword processing."""
+"""`matrix_fun.py` - some functions for loanword processing."""
 from typing import Tuple, List, Any
 
 import numpy as np
@@ -38,7 +38,7 @@ def run_length_encoding(in_array: List[int]) -> Tuple[Any, Any, Any]:
     return starts, lengths, values
 
 
-def extract_words(sentence, starts, lengths, values):
+def extract_words(sentence: List[str], starts: List[int], lengths: List[int], values: List[int]):
     """
     Extract words based on consecutive marks; isolate marks not harvested
     :param sentence:
@@ -47,7 +47,7 @@ def extract_words(sentence, starts, lengths, values):
     :param values:
     :return:
 
-    >>> sent = ['You' , 'know', 'they' ,'say', 'vaya', 'con', 'Dios', 'everytime']
+    >>> sent = ['You', 'know', 'they', 'say', 'vaya', 'con', 'Dios', 'everytime']
     >>> data = [0, 0, 0, 0, 1, 1, 1, 0]
     >>> extract_words(sent, *run_length_encoding(data))
     [['vaya', 'con', 'Dios']]
@@ -63,7 +63,7 @@ def extract_words(sentence, starts, lengths, values):
             ]
 
 
-def extract_consecutive_indices(starts, lengths, values):
+def extract_consecutive_indices(starts: List[int], lengths: List[int], values: List[int]):
     """
     :param starts:
     :param lengths:
@@ -90,3 +90,48 @@ def extract_consecutive_indices(starts, lengths, values):
               ]
     input_list = [list(range(a, b)) for a, b in places]
     return np.concatenate(input_list).ravel().tolist()
+
+
+def match_sequence(arr: List[int], seq: List[int]):
+    """
+    Given an array, find matching sequences.
+
+    :param arr: List of Integers
+    :param seq: List of Integers, typically a smaller sequence
+    :return:
+
+    >>> match_sequence([0, 0, 0, 1, 0, 1, 0, 0], [1, 0, 1])
+    [3, 4, 5]
+
+    """
+    the_arr = np.array(arr)
+    the_seq = np.array(seq)
+    # Store sizes of input array and sequence
+    num_arr, num_seq = the_arr.size, the_seq.size
+    # Range of sequence
+    r_seq = np.arange(num_seq)
+
+    # Create a 2D array of sliding indices across the entire length of input array.
+    # Match up with the input sequence & get the matching starting indices.
+    m_vals = (the_arr[np.arange(num_arr - num_seq + 1)[:, None] + r_seq] == the_seq).all(1)
+
+    # Get the range of those indices as final output
+    if m_vals.any() > 0:
+        return np.where(np.convolve(m_vals, np.ones((num_seq), dtype=int)) > 0)[0].tolist()
+    return []
+
+
+def patch_cluster_holes(arr: List[int]) -> List[int]:
+    """
+    Given an array of binary values, heal any holes matching [1, 0, 1]
+
+    >>> patch_cluster_holes([0, 0, 0, 1, 0, 1, 0, 0] )
+    [0, 0, 0, 1, 1, 1, 0, 0]
+
+    :param arr:
+    :return:
+    """
+    patches = match_sequence(arr, [1, 0, 1])
+    for idx in patches:
+        arr[idx] = 1
+    return arr
