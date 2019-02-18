@@ -67,20 +67,23 @@ def get_char_counts(corpus_reader: CorpusReader) -> Dict[str, int]:
     return char_counter
 
 
-def get_split_words(corpus_reader: CorpusReader, word_trie: WordTrie) -> Dict[str, List[str]]:
+def get_split_words(corpus_reader: CorpusReader,
+                    word_trie: WordTrie,
+                    max_word_length: int = 15) -> Dict[str, List[str]]:
     """
     Search a corpus for improperly joined words, defined by a discrete trie model.
     return a dictionary, keys are files, and values are lists of tuples of the split words.
 
     :param corpus_reader:
     :param word_trie:
+    :param max_word_length:
     :return:
     """
     split_words = defaultdict(list)  # type: Dict[str, List[str]]
     files = corpus_reader.fileids()
     for file in tqdm(files, total=len(files), unit='files'):
         for word in corpus_reader.words(file):
-            if len(word) > 15 and not word_trie.has_word(word):
+            if len(word) > max_word_length and not word_trie.has_word(word):
                 word_list = word_trie.extract_word_pair(word)
                 if len(word_list) == 2:
                     split_words[file] += word_list
@@ -97,6 +100,7 @@ def get_mean_stdev(mycounter: Dict[int, int]) -> Tuple[float, float]:
     >>> counter = Counter(dict(zip(list(range(1, 10)), list(range(1, 10)))))
     >>> get_mean_stdev(counter)
     (6.333, 2.236)
+
     """
     all_lens = []  # type: List[int]
     for key in mycounter:

@@ -38,9 +38,13 @@ mkdir p37
 
 ## Recommended Sequence
 
-* [1. Assessing corpus quality](building_language_model/assessing_corpus_quality.ipynb)
+### Building a Language Model
+* [1. Assessing Corpus Quality](building_language_model/assessing_corpus_quality.ipynb)
 * [2. Making a Frequency Distribution](building_language_model/make_frequency_distribution.ipynb)
 * [3. Making a Trie Language Model](building_language_model/make_trie_language_model.ipynb)
+### Bootstrapping Classification
 * [4. Bootstrapping - Classifying Corpus Documents](bootstrapping_classification/corpus_doc_classify.ipynb)
-* [5. The Problem of Loanwords, and a Solution](detecting_loanwords/loanwords_problems_solutions.ipynb)
-
+### Detecting Loanwords
+* [5. Making a Frequency Distribution of Transliterated Greek](detecting_loanwords/make_frequency_distribution_greek_transliterated.ipynb)
+* [6. Boosting Training Data](detecting_loanwords/boosting_training_data.ipynb)
+* [7. The Problem of Loanwords, and a Solution](detecting_loanwords/loanwords_problems_solutions.ipynb)
