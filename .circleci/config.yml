@@ -47,7 +47,7 @@ jobs:
       - save_cache:
           paths:
             - ./venv
-          key: v1-dependencies-{{ checksum "requirements.txt" }}
+          key: v1-dependencies-{{ checksum "install_corpora.py" }}
 
       # run tests!
       # this example uses Django's built-in test-runner
