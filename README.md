@@ -1,4 +1,6 @@
 # ML-You-Can-Use
+[![CircleCI](https://circleci.com/gh/todd-cook/ML-You-Can-Use.svg?style=svg)](https://circleci.com/gh/todd-cook/ML-You-Can-Use)
+
 Practical ML with examples. Support for articles, arguments, and tutorials.
 
 ## Featuring
