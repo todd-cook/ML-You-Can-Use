@@ -104,11 +104,6 @@ class Doc2TokensTransformer(BaseEstimator, TransformerMixin):
 
         :param documents:
         :return:
-        >>> dummyX = [['The quick fox. The lazy dog.'],
-        ... ['Wait: godot. Look, sunshine!']]
-        >>> newX = Doc2TokensTransformer().transform(dummyX)
-        >>> print(list(newX))
-        [['The', 'quick', 'fox', 'The', 'lazy', 'dog'], ['Wait', 'godot', 'Look', 'sunshine']]
         """
 
         for document in documents:
