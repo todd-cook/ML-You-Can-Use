@@ -34,6 +34,17 @@ jobs:
             . venv/bin/activate
             pip install -r requirements.txt
 
+      - run:
+          name: install dependency resources
+          command: |
+            echo "Installing CLTK Data"
+            python install_corpora.py
+
+            echo "Installing NLTK data"
+            python -m nltk.downloader all
+
+
+
       - save_cache:
           paths:
             - ./venv
