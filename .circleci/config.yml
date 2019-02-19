@@ -37,13 +37,12 @@ jobs:
       - run:
           name: install dependency resources
           command: |
+            . venv/bin/activate
             echo "Installing CLTK Data"
             python install_corpora.py
 
             echo "Installing NLTK data"
             python -m nltk.downloader all
-
-
 
       - save_cache:
           paths:
