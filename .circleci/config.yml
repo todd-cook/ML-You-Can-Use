@@ -48,7 +48,7 @@ jobs:
           name: run tests
           command: |
             . venv/bin/activate
-            runUnitTests.sh
+            python -m  pytest --doctest-modules --cov-report=term --mypy --cov-config=.coveragerc --pylint mlyoucanuse/ --cov=mlyoucanuse/
 
       - store_artifacts:
           path: test-reports
