@@ -23,15 +23,9 @@ jobs:
       # Download and cache dependencies
       - restore_cache:
           keys:
-            # when lock file changes, use increasingly general patterns to restore cache
-            - pip-packages-v1-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
-            - pip-packages-v1-{{ .Branch }}-
-            - pip-packages-v1-
-      - save_cache:
-          paths:
-            - ~/.local/share/virtualenvs/venv  # this path depends on where pipenv creates a virtualenv
-          key: pip-packages-v1-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
-
+          - v1-dependencies-{{ checksum "requirements.txt" }}
+          # fallback to using the latest cache if no exact match is found
+          - v1-dependencies-
 
       - run:
           name: install dependencies
@@ -39,19 +33,14 @@ jobs:
             python3 -m venv venv
             . venv/bin/activate
             pip install -r requirements.txt
-            python install_corpora.py
-            python -m nltk.downloader all
+            python3 install_corpora.py
+            python3 -m nltk.downloader all
 
       - save_cache:
           paths:
             - ./venv
           key: v1-dependencies-{{ checksum "requirements.txt" }}
 
-      # run tests!
-      # this example uses Django's built-in test-runner
-      # other common Python testing frameworks include pytest and nose
-      # https://pytest.org
-      # https://nose.readthedocs.io
       - run:
           name: run tests
           command: |
