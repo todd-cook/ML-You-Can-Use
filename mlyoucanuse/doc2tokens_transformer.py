@@ -1,6 +1,6 @@
 """`doc2tokens_transformer.py` - Transformer for Documents."""
 import unicodedata
-
+import logging
 import re
 from sklearn.base import BaseEstimator, TransformerMixin
 from cltk.tokenize.word import WordTokenizer # pylint: disable=no-name-in-module
@@ -12,6 +12,9 @@ from cltk.prosody.latin.string_utils import punctuation_for_spaces_dict
 
 __author__ = 'Todd Cook <todd.g.cook@gmail.com>'
 __license__ = 'MIT License'
+
+LOG = logging.getLogger(__name__)
+LOG.addHandler(logging.NullHandler())
 
 
 class Doc2TokensTransformer(BaseEstimator, TransformerMixin):

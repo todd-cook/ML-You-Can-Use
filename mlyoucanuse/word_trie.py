@@ -1,10 +1,12 @@
 """`word_trie.py` - A trie that tracks word constructions."""
-
+import logging
 from typing import List, Dict  # pylint: disable=unused-import
 
 __author__ = 'Todd Cook <todd.g.cook@gmail.com>'
 __license__ = 'MIT License'
 
+LOG = logging.getLogger(__name__)
+LOG.addHandler(logging.NullHandler())
 
 class WordTrie:
     """Keep track of whole words in a collection."""

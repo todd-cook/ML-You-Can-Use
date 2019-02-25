@@ -1,11 +1,13 @@
 """`matrix_fun.py` - some functions for loanword processing."""
 from typing import Tuple, List, Any
-
+import logging
 import numpy as np
 
 __author__ = 'Todd Cook <todd.g.cook@gmail.com>'
 __license__ = 'MIT License'
 
+LOG = logging.getLogger(__name__)
+LOG.addHandler(logging.NullHandler())
 
 def run_length_encoding(in_array: List[int]) -> Tuple[Any, Any, Any]:
     """

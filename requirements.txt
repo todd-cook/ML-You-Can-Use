@@ -15,3 +15,8 @@ pytest-mypy
 pylint
 pytest-pylint
 yapf
+bs4
+lxml
+keras
+tensorflow
+

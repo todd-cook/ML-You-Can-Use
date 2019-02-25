@@ -2,10 +2,13 @@
 
 import re
 from typing import List
+import logging
 
 __author__ = 'Todd Cook <todd.g.cook@gmail.com>'
 __license__ = 'MIT License'
 
+LOG = logging.getLogger(__name__)
+LOG.addHandler(logging.NullHandler())
 
 class AEOEReplacer: # pylint: disable=too-few-public-methods
     """Replace 'œæ' with AE, 'Œ Æ' with OE.

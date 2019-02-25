@@ -1,4 +1,5 @@
 """`corpus_analysis_fun.py` - methods for analysing a corpus"""
+import logging
 import statistics
 from collections import Counter, defaultdict
 from typing import List, Tuple, Dict
@@ -13,6 +14,8 @@ from mlyoucanuse.word_trie import WordTrie
 __author__ = 'Todd Cook <todd.g.cook@gmail.com>'
 __license__ = 'MIT License'
 
+LOG = logging.getLogger(__name__)
+LOG.addHandler(logging.NullHandler())
 
 def get_word_lengths(corpus_reader: CorpusReader, max_word_length: int = 100) -> Dict[int, int]:
     """
