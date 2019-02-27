@@ -52,4 +52,4 @@ jobs:
           destination: test-reports
           command: |
             . venv/bin.activate
-            codecov --token=6e8e2361-345c-41c9-9401-a6911bdb8a40
+            codecov
