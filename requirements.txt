@@ -19,4 +19,4 @@ bs4
 lxml
 keras
 tensorflow
-
+codecov

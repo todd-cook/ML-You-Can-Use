@@ -87,3 +87,50 @@ def expand_postag(tag: str) -> List[str]:
     return [postaglist[idx][char]
             for idx, char in enumerate(tag)
             if char != '-']
+
+
+def _get_key_from_val(mydict, the_val):
+    """
+    Helper method.
+
+    >>> _get_key_from_val( {1: 'one', 2: 'two'}, 'one')
+    1
+    """
+    for key, val in mydict.items():
+        if val == the_val:
+            return key
+    return None
+
+
+def to_postag(description: str):
+    """
+
+    :param description: Comma separated string
+    :return: The postag
+
+    >>> to_postag('adjective, plural, feminine, ablative')
+    'A-P---FB-'
+
+    """
+    chars = ['-'] * 9
+    for item in description.split(','):
+        item = item.strip().lower()
+        if item in POS.values():
+            chars[0] = _get_key_from_val(POS, item)
+        if item in PERSON.values():
+            chars[1] = _get_key_from_val(PERSON, item)
+        if item in NUMBER.values():
+            chars[2] = _get_key_from_val(NUMBER, item)
+        if item in TENSE.values():
+            chars[3] = _get_key_from_val(TENSE, item)
+        if item in MOOD.values():
+            chars[4] = _get_key_from_val(MOOD, item)
+        if item in VOICE.values():
+            chars[5] = _get_key_from_val(VOICE, item)
+        if item in GENDER.values():
+            chars[6] = _get_key_from_val(GENDER, item)
+        if item in CASE.values():
+            chars[7] = _get_key_from_val(CASE, item)
+        if item in DEGREE.values():
+            chars[8] = _get_key_from_val(DEGREE, item)
+    return ''.join(chars)
