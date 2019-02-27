@@ -3,6 +3,10 @@
 # Check https://circleci.com/docs/2.0/language-python/ for more details
 #
 version: 2
+
+orbs:
+  codecov: codecov/codecov@1.0.2
+
 jobs:
   build:
     docker:
@@ -47,9 +51,15 @@ jobs:
             . venv/bin/activate
             python -m  pytest --doctest-modules --cov-report=term --mypy --cov-config=.coveragerc --pylint mlyoucanuse/ --cov=mlyoucanuse/
 
-      - store_artifacts:
-          path: test-reports
-          destination: test-reports
+      - run:
+          name: run coverage
           command: |
             . venv/bin.activate
             codecov
+
+      - store_artifacts:
+          path: test-reports
+          destination: test-reports
+
+      - codecov/upload:
+          file: {{ coverage_report_filepath }}
