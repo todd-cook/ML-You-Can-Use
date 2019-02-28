@@ -1,19 +1,18 @@
 # ML-You-Can-Use
-[![CircleCI](https://circleci.com/gh/todd-cook/ML-You-Can-Use.svg?style=svg)](https://circleci.com/gh/todd-cook/ML-You-Can-Use)
-
-[![codecov.io](http://codecov.io/github/todd-cook/ML-You-Can-Use/coverage.svg?branch=master)](http://codecov.io/github/todd-cook/ML-You-Can-Use?branch=master)
+[![CircleCI](https://circleci.com/gh/todd-cook/ML-You-Can-Use.svg?style=svg)](https://circleci.com/gh/todd-cook/ML-You-Can-Use)  [![codecov.io](http://codecov.io/github/todd-cook/ML-You-Can-Use/coverage.svg?branch=master)](http://codecov.io/github/todd-cook/ML-You-Can-Use?branch=master)
 
 Practical ML with examples. Support for articles, arguments, and tutorials.
 
 ## Featuring
 * Interesting applications of Natural Language Processing and Machine Learning.
 * Practical demonstration notebooks
-* Longer methods and code extracted from the notebooks for type checking, linting, testing and increased robustness.
 * Reproducible experiments
-* Type checking via MyPy annotations
-* Linting via Pylint
-* Doctests whenever possible
-* Pytest configuration
+* Illustrated best practices:
+    * Longer methods and code extracted from notebooks for type checking, linting, testing.
+    * Type checking via MyPy annotations
+    * Linting via Pylint
+    * Doctests whenever possible
+    * Pytest configuration
 
 ### Setup
 ### Install Python 3

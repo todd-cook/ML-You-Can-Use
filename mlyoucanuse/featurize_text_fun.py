@@ -1,9 +1,12 @@
-"""`featurize_fun.py` - functions useful for featurizing text."""
+"""`featurize_text_fun.py` - functions useful for featurizing text."""
 
 import logging
 from typing import List, Dict, Any
 
 import numpy as np
+
+__author__ = 'Todd Cook <todd.g.cook@gmail.com>'
+__license__ = 'MIT License'
 
 LOG = logging.getLogger(__name__)
 LOG.addHandler(logging.NullHandler())
@@ -50,7 +53,6 @@ def featurize(sentence: List[str], idx: int) -> Dict[str, Any]:
     >>> params['ultimate_suffix'] == 'over'
     True
 
-
     """
     if not sentence or idx > len(sentence):
         return {}  # type: ignore
@@ -80,6 +82,7 @@ def word_to_features(word: str, max_word_length: int = 20) -> List[int]:
     [114, 97, 102, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
     >>> word_to_features('far', 5)
     [114, 97, 102, 0, 0]
+
     """
     if len(word) > max_word_length:
         LOG.warning('Excessive word length %s for %s, truncating to %s', len(word), word,

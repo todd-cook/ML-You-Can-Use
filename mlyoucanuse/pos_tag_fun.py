@@ -7,6 +7,9 @@ for more info see: https://github.com/PerseusDL/treebank_data.git
 import logging
 from typing import Dict, List  # pylint: disable=unused-import
 
+__author__ = 'Todd Cook <todd.g.cook@gmail.com>'
+__license__ = 'MIT License'
+
 LOG = logging.getLogger(__name__)
 LOG.addHandler(logging.NullHandler())
 

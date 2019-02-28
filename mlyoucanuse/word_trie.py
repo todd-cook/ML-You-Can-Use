@@ -31,6 +31,15 @@ class WordTrie:
         if not curr_root.get(self.eot):
             curr_root[self.eot] = ''
 
+    def add_all(self, words: List[str]) -> None:
+        """
+        Convenience method
+        :param words:
+        :return:
+        """
+        for word in words:
+            self.add(word)
+
     def has_word(self, word: str) -> bool:
         """
         Determine whether or not the exact word was pushed into this tree
