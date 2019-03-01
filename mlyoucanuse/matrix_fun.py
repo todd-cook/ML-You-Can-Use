@@ -9,6 +9,7 @@ __license__ = 'MIT License'
 LOG = logging.getLogger(__name__)
 LOG.addHandler(logging.NullHandler())
 
+
 def run_length_encoding(in_array: List[int]) -> Tuple[Any, Any, Any]:
     """
     Run length encoding. Partial credit to R rle function.
@@ -24,8 +25,10 @@ def run_length_encoding(in_array: List[int]) -> Tuple[Any, Any, Any]:
 
     >>> run_length_encoding([1, 1, 1, 1, 1, 1, 1, 1, 1])
     (array([0]), array([9]), array([1]))
+
     >>> run_length_encoding([0])
     (array([0]), array([1]), array([0]))
+
     """
     where = np.flatnonzero
     arr = np.asarray(in_array)
@@ -42,7 +45,10 @@ def run_length_encoding(in_array: List[int]) -> Tuple[Any, Any, Any]:
 
 def extract_words(sentence: List[str], starts: List[int], lengths: List[int], values: List[int]):
     """
-    Extract words based on consecutive marks; isolate marks not harvested
+    Extract words based on consecutive marks; isolate marks not harvested.
+    Note, this will return groups of words in separate lists, you will probably want to also use
+    merge_words().
+
     :param sentence:
     :param starts:
     :param lengths:
@@ -53,6 +59,7 @@ def extract_words(sentence: List[str], starts: List[int], lengths: List[int], va
     >>> data = [0, 0, 0, 0, 1, 1, 1, 0]
     >>> extract_words(sent, *run_length_encoding(data))
     [['vaya', 'con', 'Dios']]
+
     >>> data = [0, 0, 0, 0, 0, 1, 0, 0]
     >>> extract_words(sent, *run_length_encoding(data))
     []
@@ -61,8 +68,22 @@ def extract_words(sentence: List[str], starts: List[int], lengths: List[int], va
     return [sentence[starts[idx]: starts[idx] + lengths[idx]]
             for idx, tmp in enumerate(values)
             if tmp == 1
-            if lengths[idx] > 1
-            ]
+            if lengths[idx] > 1]
+
+def merge_words(word_matrix: List[List[str]])->List[str]:
+    """
+    Merge lists of lists into one list.
+    :param word_matrix:
+    :return:
+
+    >>> merge_words([['kai', 'gar', 'onar'], ['ek', 'Dios', 'esti']])
+    ['kai', 'gar', 'onar', 'ek', 'Dios', 'esti']
+
+    """
+    if not word_matrix:
+        return word_matrix # type: ignore
+    return [item for items in word_matrix for item in items]
+
 
 
 def extract_consecutive_indices(starts: List[int], lengths: List[int], values: List[int]):
@@ -76,12 +97,13 @@ def extract_consecutive_indices(starts: List[int], lengths: List[int], values: L
     >>> data = [0, 0, 0, 0, 1, 1, 1, 0]
     >>> run_length_encoding(data)
     (array([0, 4, 7]), array([4, 3, 1]), array([0, 1, 0]))
+
     >>> extract_consecutive_indices(*run_length_encoding(data))
     [4, 5, 6]
-    >>> sent ='kai to kalon they say often kai to agathon'.split()
-    >>> indices = [1,1,1,0,0,0,1,1,1]
 
     # handle multiple
+    >>> sent ='kai to kalon they say often kai to agathon'.split()
+    >>> indices = [1,1,1,0,0,0,1,1,1]
     >>> extract_consecutive_indices(*run_length_encoding(indices))
     [0, 1, 2, 6, 7, 8]
 
@@ -127,11 +149,12 @@ def patch_cluster_holes(arr: List[int]) -> List[int]:
     """
     Given an array of binary values, heal any holes matching [1, 0, 1]
 
+    :param arr:
+    :return:
+
     >>> patch_cluster_holes([0, 0, 0, 1, 0, 1, 0, 0] )
     [0, 0, 0, 1, 1, 1, 0, 0]
 
-    :param arr:
-    :return:
     """
     patches = match_sequence(arr, [1, 0, 1])
     for idx in patches:
