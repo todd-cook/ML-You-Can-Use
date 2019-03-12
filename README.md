@@ -1,20 +1,26 @@
 # ML-You-Can-Use
 [![CircleCI](https://circleci.com/gh/todd-cook/ML-You-Can-Use.svg?style=svg)](https://circleci.com/gh/todd-cook/ML-You-Can-Use)  [![codecov.io](http://codecov.io/github/todd-cook/ML-You-Can-Use/coverage.svg?branch=master)](http://codecov.io/github/todd-cook/ML-You-Can-Use?branch=master)
 
-Practical ML with examples. Support for articles, arguments, and tutorials.
+Practical Machine Learning and Natural Language Processing with examples.
 
 ## Featuring
-* Interesting applications of Natural Language Processing and Machine Learning.
+* Interesting applications of NLP and ML.
 * Practical demonstration notebooks
 * Reproducible experiments
 * Illustrated best practices:
-    * Longer methods and code extracted from notebooks for type checking, linting, testing.
-    * Type checking via MyPy annotations
-    * Linting via Pylint
-    * Doctests whenever possible
-    * Pytest configuration
+    * Code extracted from notebooks for:
+        * Type checking via MyPy annotations
+        * Linting via Pylint
+        * Doctests whenever possible
+
 
 ### Setup
+Download this repo using git with the submodule command, e.g.:
+
+``git pull --recurse-submodules``
+
+Submodules are used to pull in some data and external data processing utilities that we'll use for preprocessing some of the data.
+
 ### Install Python 3
 ### Create Virtual Environment
 ``` 
@@ -33,6 +39,7 @@ mkdir p3
 * installs Python ssl certificates
 * installs CLTK data for Latin and Greek
 * installs NLTK data
+* downloads Wikipedia data dump for local processing
 
 ### Testing
 ``./runUnitTests.sh``
@@ -50,3 +57,6 @@ mkdir p3
 * [5. Making a Frequency Distribution of Transliterated Greek](detecting_loanwords/make_frequency_distribution_greek_transliterated.ipynb)
 * [6. Boosting Training Data](detecting_loanwords/boosting_training_data.ipynb)
 * [7. The Problem of Loanwords, and a Solution](detecting_loanwords/loanwords_problems_solutions.ipynb)
+### Customized Word Embeddings
+* [8. Quality Embeddings](quality_embeddings/generate_word_vector.ipynb) 
+* [9. Wikipedia Corpus Processing](wikipedia_corpus_processing/create_corpus_from_latin_wiki.ipynb) 

@@ -1,3 +1,6 @@
 [submodule "data/treebank_data"]
 	path = data/treebank_data
 	url = https://github.com/PerseusDL/treebank_data.git
+[submodule "data/wikiextractor"]
+	path = data/wikiextractor
+	url = https://github.com/attardi/wikiextractor.git
