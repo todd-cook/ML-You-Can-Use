@@ -4,7 +4,7 @@
 Practical Machine Learning and Natural Language Processing with examples.
 
 ## Featuring
-* Interesting applications of NLP and ML.
+* Interesting applications of NLP and ML
 * Practical demonstration notebooks
 * Reproducible experiments
 * Illustrated best practices:
@@ -39,7 +39,6 @@ mkdir p3
 * installs Python ssl certificates
 * installs CLTK data for Latin and Greek
 * installs NLTK data
-* downloads Wikipedia data dump for local processing
 
 ### Testing
 ``./runUnitTests.sh``
@@ -58,5 +57,5 @@ mkdir p3
 * [6. Boosting Training Data](detecting_loanwords/boosting_training_data.ipynb)
 * [7. The Problem of Loanwords, and a Solution](detecting_loanwords/loanwords_problems_solutions.ipynb)
 ### Customized Word Embeddings
-* [8. Quality Embeddings](quality_embeddings/generate_word_vector.ipynb) 
-* [9. Wikipedia Corpus Processing](wikipedia_corpus_processing/create_corpus_from_latin_wiki.ipynb) 
+* [8. Wikipedia Corpus Processing](wikipedia_corpus_processing/create_corpus_from_latin_wiki.ipynb) 
+* [9. Quality Embeddings](quality_embeddings/generate_word_vector.ipynb) 
