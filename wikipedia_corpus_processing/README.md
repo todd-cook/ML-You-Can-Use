@@ -1,7 +1,7 @@
 # Wikipedia Corpus Processing
 
 ## Preparation: Make sure your git pull included submodules, e.g.
-    * ``git pull --recurse-submodules``  
+* ``git pull --recurse-submodules``  
 
 ## Latin wikipedia
 * archive size: circa 86 MB, 410 MB unzipped

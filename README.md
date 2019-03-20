@@ -13,7 +13,6 @@ Practical Machine Learning and Natural Language Processing with examples.
         * Linting via Pylint
         * Doctests whenever possible
 
-
 ### Setup
 Download this repo using git with the submodule command, e.g.:
 
@@ -53,9 +52,15 @@ mkdir p3
 * [2. Making a Frequency Distribution](building_language_model/make_frequency_distribution.ipynb)
 * [3. Making a Trie Language Model](building_language_model/make_trie_language_model.ipynb)
 ### Detecting Loanwords
-* [5. Making a Frequency Distribution of Transliterated Greek](detecting_loanwords/make_frequency_distribution_greek_transliterated.ipynb)
-* [6. Boosting Training Data](detecting_loanwords/boosting_training_data.ipynb)
-* [7. The Problem of Loanwords, and a Solution](detecting_loanwords/loanwords_problems_solutions.ipynb)
-### Customized Word Embeddings
-* [8. Wikipedia Corpus Processing](wikipedia_corpus_processing/create_corpus_from_latin_wiki.ipynb) 
-* [9. Quality Embeddings](quality_embeddings/generate_word_vector.ipynb) 
+* [4. Making a Frequency Distribution of Transliterated Greek](detecting_loanwords/make_frequency_distribution_greek_transliterated.ipynb)
+* [5. Boosting Training Data](detecting_loanwords/boosting_training_data.ipynb)
+* [6. The Problem of Loanwords, and a Solution](detecting_loanwords/loanwords_problems_solutions.ipynb)
+* [7. Feature Engineering with the Loanwords matrix](detecting_loanwords/loanwords_feature_engineering.ipynb)
+### Wikipedia Corpus Processing
+* [8. English Wikipedia Corpus Cleaning](wikipedia_corpus_processing/clean_english_wiki_corpus.ipynb)
+* [9. English Wikipedia Corpus Processing](wikipedia_corpus_processing/create_corpus_from_english_wiki.ipynb)
+* [10. Latin Corpus Processing](wikipedia_corpus_processing/create_corpus_from_latin_wiki.ipynb)
+* [11. Down sample or not](wikipedia_corpus_processing/down_sample_or_not.ipynb)
+### Quality Embeddings 
+* [12. Generate English Wikipedia word vector](quality_embeddings/generate_latin_word_vector.ipynb) 
+* [13. Generate Latin word vector](quality_embeddings/generate_latin_word_vector.ipynb) 

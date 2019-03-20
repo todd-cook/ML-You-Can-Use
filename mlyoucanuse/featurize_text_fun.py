@@ -71,11 +71,12 @@ def featurize(sentence: List[str], idx: int) -> Dict[str, Any]:
     }
 
 
-def word_to_features(word: str, max_word_length: int = 20) -> List[int]:
+def word_to_features(word: str, max_word_length: int = 20, reverse :bool =True) -> List[int]:
     """
 
     :param word: a single word
-    :param max_word_length: the maximum word length for the feature array
+    :param max_word_length: the maximum word length for the feature array.
+    :param reverse: flip the word, to align words by suffixes.
     :return: A list of ordinal integers mapped to each character and padded to the max word length.
 
     >>> word_to_features('far')
@@ -89,7 +90,8 @@ def word_to_features(word: str, max_word_length: int = 20) -> List[int]:
                     max_word_length)
         word = word[:max_word_length]
     wordlist = list(word)
-    wordlist.reverse()
+    if reverse:
+        wordlist.reverse()
     replacer = {32: 0}  # in a feature matrix a space should be a zero, let's force it
     return [replacer.get(ord(c), ord(c)) for c in "".join(wordlist).ljust(max_word_length, ' ')]
 
