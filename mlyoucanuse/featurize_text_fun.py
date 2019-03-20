@@ -71,7 +71,7 @@ def featurize(sentence: List[str], idx: int) -> Dict[str, Any]:
     }
 
 
-def word_to_features(word: str, max_word_length: int = 20, reverse :bool =True) -> List[int]:
+def word_to_features(word: str, max_word_length: int = 20, reverse: bool = True) -> List[int]:
     """
 
     :param word: a single word
