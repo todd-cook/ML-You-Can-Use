@@ -1,17 +1,17 @@
 {
   "provenance_data": "is_transliterated_greek.mdl.0.20.2.joblib.prov.json",
-  "date_created": "2019-02-27 23:11:35.141046",
+  "date_created": "2019-03-23 21:44:44.441514",
   "model_parameters": {
     "criterion": "entropy",
     "max_features": 0.4,
-    "n_estimators": 800
+    "n_estimators": 750
   },
   "max_word_length": 25,
   "num_samples": 226601,
   "num_features": 25,
   "library_version": "0.20.2",
   "classifier_class": "<class 'sklearn.ensemble.forest.RandomForestClassifier'>",
-  "classifier_best_score": 0.9615006112064819,
+  "classifier_best_score": 0.9617080242364332,
   "data_files": {
     "1": {
       "filename": "bc1.txt",
@@ -379,16 +379,16 @@
     }
   },
   "model_output_file": "is_transliterated_greek.mdl.0.20.2.joblib",
-  "model_output_md5": "568c122fc792ca4833d600648ed9dd10",
+  "model_output_md5": "2f232649c44830eea9c77d55a7c8fd75",
   "labels": [
     0.0,
     1.0
   ],
-  "best_score": 0.9615006112064819,
+  "best_score": 0.9617080242364332,
   "best_params": {
     "criterion": "entropy",
     "max_features": 0.4,
-    "n_estimators": 800
+    "n_estimators": 750
   },
   "comment": "Transliterated Greek Classifier",
   "code_generated_by": "loanwords_problems_solutions.ipynb",

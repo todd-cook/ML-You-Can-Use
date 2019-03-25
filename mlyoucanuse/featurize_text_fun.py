@@ -75,7 +75,8 @@ def word_to_features(word: str, max_word_length: int = 20, reverse: bool = True)
     """
 
     :param word: a single word
-    :param max_word_length: the maximum word length for the feature array.
+    :param max_word_length: the maximum word length for the feature array. If the word is longer
+    than this, it will be truncated, if reverse is True, the prefix of the word will be trimmed.
     :param reverse: flip the word, to align words by suffixes.
     :return: A list of ordinal integers mapped to each character and padded to the max word length.
 
@@ -85,13 +86,13 @@ def word_to_features(word: str, max_word_length: int = 20, reverse: bool = True)
     [114, 97, 102, 0, 0]
 
     """
-    if len(word) > max_word_length:
-        LOG.warning('Excessive word length %s for %s, truncating to %s', len(word), word,
-                    max_word_length)
-        word = word[:max_word_length]
     wordlist = list(word)
     if reverse:
         wordlist.reverse()
+    if len(wordlist) > max_word_length:
+        LOG.warning('Excessive word length %s for %s, truncating to %s', len(word), word,
+                    max_word_length)
+        wordlist = wordlist[:max_word_length]
     replacer = {32: 0}  # in a feature matrix a space should be a zero, let's force it
     return [replacer.get(ord(c), ord(c)) for c in "".join(wordlist).ljust(max_word_length, ' ')]
 

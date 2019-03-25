@@ -25,6 +25,7 @@ Submodules are used to pull in some data and external data processing utilities 
 ``` 
 mkdir p3
  `which python3` -m venv ./p3
+ source setPythonHashSeed.sh
  source p3/bin/activate
 ```
 ### Install Requirements
@@ -56,11 +57,12 @@ mkdir p3
 * [5. Boosting Training Data](detecting_loanwords/boosting_training_data.ipynb)
 * [6. The Problem of Loanwords, and a Solution](detecting_loanwords/loanwords_problems_solutions.ipynb)
 * [7. Feature Engineering with the Loanwords matrix](detecting_loanwords/loanwords_feature_engineering.ipynb)
+* [8. Detecting Loanwords with Keras](detecting_loanwords/detecting_loanwords_keras..ipynb)
 ### Wikipedia Corpus Processing
-* [8. English Wikipedia Corpus Cleaning](wikipedia_corpus_processing/clean_english_wiki_corpus.ipynb)
-* [9. English Wikipedia Corpus Processing](wikipedia_corpus_processing/create_corpus_from_english_wiki.ipynb)
-* [10. Latin Corpus Processing](wikipedia_corpus_processing/create_corpus_from_latin_wiki.ipynb)
-* [11. Down sample or not](wikipedia_corpus_processing/down_sample_or_not.ipynb)
+* [9. English Wikipedia Corpus Cleaning](wikipedia_corpus_processing/clean_english_wiki_corpus.ipynb)
+* [10. English Wikipedia Corpus Processing](wikipedia_corpus_processing/create_corpus_from_english_wiki.ipynb)
+* [11. Latin Corpus Processing](wikipedia_corpus_processing/create_corpus_from_latin_wiki.ipynb)
+* [12. Down sample or not](wikipedia_corpus_processing/down_sample_or_not.ipynb)
 ### Quality Embeddings 
-* [12. Generate English Wikipedia word vector](quality_embeddings/generate_latin_word_vector.ipynb) 
-* [13. Generate Latin word vector](quality_embeddings/generate_latin_word_vector.ipynb) 
+* [13. Generate English Wikipedia word vector](quality_embeddings/generate_latin_word_vector.ipynb) 
+* [14. Generate Latin word vector](quality_embeddings/generate_latin_word_vector.ipynb) 
