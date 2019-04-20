@@ -49,9 +49,9 @@ mkdir p3
 ## Recommended Sequence
 
 ### Building a Language Model
-* [1. Assessing Corpus Quality](building_language_model/assessing_corpus_quality.ipynb)
-* [2. Making a Frequency Distribution](building_language_model/make_frequency_distribution.ipynb)
-* [3. Making a Trie Language Model](building_language_model/make_trie_language_model.ipynb)
+* [1. Assessing Corpus Quality](probablistic_language_modeling/assessing_corpus_quality.ipynb)
+* [2. Making a Frequency Distribution](probablistic_language_modeling/make_frequency_distribution.ipynb)
+* [3. Making a Trie Language Model](probablistic_language_modeling/make_trie_language_model.ipynb)
 ### Detecting Loanwords
 * [4. Making a Frequency Distribution of Transliterated Greek](detecting_loanwords/make_frequency_distribution_greek_transliterated.ipynb)
 * [5. Boosting Training Data](detecting_loanwords/boosting_training_data.ipynb)
