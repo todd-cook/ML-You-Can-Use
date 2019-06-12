@@ -21,3 +21,6 @@ keras
 tensorflow
 codecov
 gensim
+torch
+torchvision
+pydot

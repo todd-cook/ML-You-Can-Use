@@ -104,14 +104,14 @@ def vectorize_features(params):
     :return:
     """
 
-    return np.concatenate((word_to_features(params['word'], max_word_length=21),
-                           0 if not params['first_position'] else 1,
+    return np.concatenate((0 if not params['first_position'] else 1,
                            0 if not params['last_position'] else 1,
                            0 if not params['initial_capitalization'] else 1,
                            0 if not params['all_caps'] else 1,
                            0 if not params['all_lower'] else 1,
                            word_to_features(params['ante_previous_word_suffix'], max_word_length=9),
                            word_to_features(params['previous_word_suffix'], max_word_length=9),
+                           word_to_features(params['word'], max_word_length=21),
                            word_to_features(params['penultimate_suffix'], max_word_length=9),
                            word_to_features(params['ultimate_suffix'], max_word_length=9)
                            ), axis=None).tolist()
