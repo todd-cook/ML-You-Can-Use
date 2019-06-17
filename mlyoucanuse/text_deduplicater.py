@@ -15,7 +15,7 @@ import random
 import re
 from collections import defaultdict
 from itertools import permutations
-from typing import List, Dict, Set, Tuple
+from typing import List, Dict, Set, Tuple, Optional
 
 import numpy as np
 from scipy.spatial.distance import cosine
@@ -48,12 +48,12 @@ class TextDeduplicater:
                  prime_above_max_hash: int = PRIME_ABOVE_MAX_HASH):
         """
 
-        :param coeff_a:
-        :param coeff_b:
-        :param num_hash_fun:
-        :param drop_punctuation:
-        :param max_hash:
-        :param prime_above_max_hash:
+        :param coeff_a: a list of integers to seed the random hash functions
+        :param coeff_b: a second list of integers to seed the random hash functions
+        :param num_hash_fun: the number of hash functions to use
+        :param drop_punctuation: boolean, whether or not to swallow punctuation
+        :param max_hash: the max hash value to use for rollover
+        :param prime_above_max_hash: the first prime above the given max hash
         """
         self.hash_data = []  # type: List[List[int]]
         self.idx_to_doc_name = {}  # type: Dict[int,str]
@@ -64,30 +64,44 @@ class TextDeduplicater:
         self.punctuation_substitutions = punctuation_for_spaces_dict() if drop_punctuation else None
         self.max_hash = max_hash
         self.prime_above_max_hash = prime_above_max_hash
+        self.newline_pattern = re.compile(r'\n')
+        self.multispace_pattern = re.compile(r'\s+')
 
-    def add_document(self, doc_name: str, text: str) -> None:
+    # pylint: disable=too-many-locals
+
+    def add_document(self, doc_name: str, text: str) -> Optional[int]:
         """
-
+        Add a document to our hash matrix. We only retain the filename and num_hash_fun integers.
         :param doc_name:
         :param text:
-        :return:
+        :return: the index of the document added or none
+
+        >>> deduper = TextDeduplicater()
+        >>> doc = 'The quick brown fox jumped over the lazy dog.'
+        >>> deduper.add_document('myfile1', doc)
+        0
+        >>> deduper.add_document('bad file', 'no trigram')
+        >>> doc3 = 'Sphinx of black quartz, judge my vow.'
+        >>> deduper.add_document('myfile3', doc3)
+        1
+
         """
         if self.punctuation_substitutions:
             text = text.translate(self.punctuation_substitutions)
         # Remove newlines and extra spaces
-        text = re.sub('\n', ' ', text)
-        text = re.sub(r'\s+', ' ', text)
+        text = self.newline_pattern.sub(' ', text)
+        text = self.multispace_pattern.sub(' ', text)
         word_list = text.split(' ')
         trigrams = grammify(word_list=word_list, num=3)
         # Hash the shingle to a 32-bit integer.
         shingles = []  # type: List[int]
         if not trigrams:
             LOG.warning('No trigrams found for %s', doc_name)
-            return
+            return None
 
         # Hurray, we have trigrams to process; increment counter and record doc name
-        idx = self.curr_idx
-        self.idx_to_doc_name[idx] = doc_name
+        doc_idx = self.curr_idx
+        self.idx_to_doc_name[doc_idx] = doc_name
         self.curr_idx += 1
 
         for shingle in trigrams:
@@ -114,11 +128,26 @@ class TextDeduplicater:
             # Add the smallest hash code value as component number idx of the signature.
             signature.append(min_hash_code)
         self.hash_data.append(signature)
+        return doc_idx
 
     def get_unique_doc_names(self) -> List[str]:
         """
         Get names of unique documents
         :return:
+
+        >>> deduper = TextDeduplicater()
+        >>> doc = 'The quick brown fox jumped over the lazy dog.'
+        >>> deduper.add_document('myfile1', doc)
+        0
+        >>> deduper.add_document('bad file', 'no trigram')
+        >>> doc3 = 'Sphinx of black quartz, judge my vow.'
+        >>> deduper.add_document('myfile3', doc3)
+        1
+        >>> deduper.add_document('myfile2', doc)
+        2
+        >>> sorted(deduper.get_unique_doc_names())
+        ['myfile1', 'myfile3']
+
         """
         new_arr = [tuple(row) for row in self.hash_data]  # type: ignore
         _, indices = np.unique(new_arr, axis=0, return_index=True)
@@ -128,9 +157,27 @@ class TextDeduplicater:
     # pylint: disable=too-many-locals
     def get_possible_duplicate_doc_names(self, threshold: float = 0.0) -> List[Tuple[str, str]]:
         """
-        Get list of duplicate document names
+        Get list of duplicate document names.
+
+        We reduce our search space from N**2 to M**2 where M is the number of rows where at least
+        one column matches with another one.
+
         :param threshold: 0.0 for exact match. 0.2 for 80% match, etc
-        :return: tuple of the possibly duplicate document names
+        :return: a list of tuples of possible duplicate document name pairs
+
+        >>> deduper = TextDeduplicater()
+        >>> doc = 'The quick brown fox jumped over the lazy dog.'
+        >>> deduper.add_document('myfile1', doc)
+        0
+        >>> deduper.add_document('bad file', 'no trigram')
+        >>> doc3 = 'Sphinx of black quartz, judge my vow.'
+        >>> deduper.add_document('myfile3', doc3)
+        1
+        >>> deduper.add_document('myfile2', doc)
+        2
+        >>> sorted(deduper.get_possible_duplicate_doc_names())
+        [('myfile2', 'myfile1')]
+
         """
         col_dicts = [defaultdict(list) for idx in range(self.num_hash_fun)]  # type: ignore
         for row_idx, row in enumerate(self.hash_data):
@@ -164,16 +211,17 @@ class TextDeduplicater:
         """
         Calculate Jaccard similarity of the two texts
         https://en.wikipedia.org/wiki/Jaccard_index
+        Note: accuracy suffers with very short text lengths.
         :param text_one:
         :param text_two:
         :return: float: 1 equals exact match
 
-        >>> tdd = TextDeduplicater()
-        >>> one = 'The quick brown fox jumped over the lazy dog'
+        >>> deduper = TextDeduplicater()
+        >>> one = 'The quick brown fox jumped over the lazy dog.'
         >>> two = 'The silly dog ate the lazy fox.'
-        >>> tdd.calculate_similarity(one, two)
+        >>> deduper.calculate_similarity(one, two)
         0.45454545454545453
-        >>> tdd.calculate_similarity(one, one)
+        >>> deduper.calculate_similarity(one, one)
         1.0
 
         """
@@ -219,7 +267,7 @@ def grammify(word_list: List[str], num: int = 3):
     return [word_list[i:i + num] for i in range(len(word_list) - num + 1)]
 
 
-def pick_random_coeffs(num: int, max_hash: int = MAX_SHINGLE_HASH):
+def pick_random_coeffs(num: int, max_hash: int = MAX_SHINGLE_HASH)->List[int]:
     """
     Generate a list of 'num' random coefficients for the random hash functions, while ensuring
     that the same value does not appear multiple times in the list.
@@ -229,8 +277,7 @@ def pick_random_coeffs(num: int, max_hash: int = MAX_SHINGLE_HASH):
     :return: a list of num random values
 
     >>> seeds = pick_random_coeffs(10)
-    >>> uniq = set(seeds)
-    >>> len(uniq)
+    >>> len(set(seeds))
     10
     """
     rand_list = []  # type: List[int]

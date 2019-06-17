@@ -48,21 +48,26 @@ mkdir p3
 
 ## Recommended Sequence
 
-### Building a Language Model
+### Modeling Language
 * [1. Assessing Corpus Quality](probablistic_language_modeling/assessing_corpus_quality.ipynb)
 * [2. Making a Frequency Distribution](probablistic_language_modeling/make_frequency_distribution.ipynb)
-* [3. Making a Trie Language Model](probablistic_language_modeling/make_trie_language_model.ipynb)
+* [3. Making a Word Trie Probability Model](probablistic_language_modeling/make_trie_language_model.ipynb)
+### Detecting Duplicate Documents
+* [4. Merge corpora by detected and filtering duplicate documents](document_deduplication/find_duplicate_docs.ipynb)
+### Classifying Texts
+* [5. Benchmarking our classifier](text_classification/imdb_benchmark.ipynb)
+* [6. Boostrapping Document Classification](text_classification/bootstrapping_document_classification.ipynb)
 ### Detecting Loanwords
-* [4. Making a Frequency Distribution of Transliterated Greek](detecting_loanwords/make_frequency_distribution_greek_transliterated.ipynb)
-* [5. Boosting Training Data](detecting_loanwords/boosting_training_data.ipynb)
-* [6. The Problem of Loanwords, and a Solution](detecting_loanwords/loanwords_problems_solutions.ipynb)
-* [7. Feature Engineering with the Loanwords matrix](detecting_loanwords/loanwords_feature_engineering.ipynb)
-* [8. Detecting Loanwords with Keras](detecting_loanwords/detecting_loanwords_keras..ipynb)
+* [7. Making a Frequency Distribution of Transliterated Greek](detecting_loanwords/make_frequency_distribution_greek_transliterated.ipynb)
+* [8. Boosting Training Data](detecting_loanwords/boosting_training_data.ipynb)
+* [9. The Problem of Loanwords, and a Solution](detecting_loanwords/loanwords_problems_solutions.ipynb)
+* [10. Feature Engineering with the Loanwords matrix](detecting_loanwords/loanwords_feature_engineering.ipynb)
+* [11. Detecting Loanwords with Keras](detecting_loanwords/detecting_loanwords_keras..ipynb)
 ### Wikipedia Corpus Processing
-* [9. English Wikipedia Corpus Cleaning](wikipedia_corpus_processing/clean_english_wiki_corpus.ipynb)
-* [10. English Wikipedia Corpus Processing](wikipedia_corpus_processing/create_corpus_from_english_wiki.ipynb)
-* [11. Latin Corpus Processing](wikipedia_corpus_processing/create_corpus_from_latin_wiki.ipynb)
-* [12. Down sample or not](wikipedia_corpus_processing/down_sample_or_not.ipynb)
+* [12. English Wikipedia Corpus Cleaning](wikipedia_corpus_processing/clean_english_wiki_corpus.ipynb)
+* [13. English Wikipedia Corpus Processing](wikipedia_corpus_processing/create_corpus_from_english_wiki.ipynb)
+* [14. Latin Corpus Processing](wikipedia_corpus_processing/create_corpus_from_latin_wiki.ipynb)
+* [15. Down sample or not](wikipedia_corpus_processing/down_sample_or_not.ipynb)
 ### Quality Embeddings 
-* [13. Generate English Wikipedia word vector](quality_embeddings/generate_latin_word_vector.ipynb) 
-* [14. Generate Latin word vector](quality_embeddings/generate_latin_word_vector.ipynb) 
+* [16. Generate English Wikipedia word vector](quality_embeddings/generate_latin_word_vector.ipynb) 
+* [17. Generate Latin word vector](quality_embeddings/generate_latin_word_vector.ipynb) 
