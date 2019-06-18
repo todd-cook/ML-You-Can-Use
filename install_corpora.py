@@ -13,6 +13,7 @@ if __name__ == '__main__':
         corpus_importer = CorpusImporter('latin')
         corpus_importer.import_corpus('latin_text_latin_library')
         corpus_importer.import_corpus('latin_text_perseus')
+        corpus_importer.import_corpus('latin_text_tesserae')
         corpus_importer = CorpusImporter('greek')
         corpus_importer.import_corpus('greek_text_perseus')
         corpus_importer.import_corpus('greek_text_lacus_curtius')

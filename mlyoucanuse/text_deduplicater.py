@@ -18,7 +18,6 @@ from itertools import permutations
 from typing import List, Dict, Set, Tuple, Optional
 
 import numpy as np
-from scipy.spatial.distance import cosine
 
 LOG = logging.getLogger(__name__)
 LOG.addHandler(logging.NullHandler())
@@ -59,9 +58,12 @@ class TextDeduplicater:
         self.idx_to_doc_name = {}  # type: Dict[int,str]
         self.curr_idx = 0
         self.num_hash_fun = num_hash_fun
-        self.coeff_a = pick_random_coeffs(num_hash_fun) if not coeff_a else coeff_a
-        self.coeff_b = pick_random_coeffs(num_hash_fun) if not coeff_b else coeff_b
-        self.punctuation_substitutions = punctuation_for_spaces_dict() if drop_punctuation else None
+        self.coeff_a = pick_random_coeffs(
+            num_hash_fun) if not coeff_a else coeff_a
+        self.coeff_b = pick_random_coeffs(
+            num_hash_fun) if not coeff_b else coeff_b
+        self.punctuation_substitutions = punctuation_for_spaces_dict(
+        ) if drop_punctuation else None
         self.max_hash = max_hash
         self.prime_above_max_hash = prime_above_max_hash
         self.newline_pattern = re.compile(r'\n')
@@ -106,7 +108,8 @@ class TextDeduplicater:
 
         for shingle in trigrams:
             shingle_string = ' '.join(list(shingle))
-            crc = binascii.crc32(shingle_string.encode(encoding='UTF-8')) & 0xffffffff
+            crc = binascii.crc32(
+                shingle_string.encode(encoding='UTF-8')) & 0xffffffff
             shingles.append(crc)
         # The resulting minhash signature for this document.
         signature = []
@@ -120,8 +123,8 @@ class TextDeduplicater:
             # For each shingle in the document...
             for shingle_id in shingles:
                 # Evaluate the hash function.
-                hash_code = (self.coeff_a[idx] * shingle_id + self.coeff_b[idx]
-                             ) % self.prime_above_max_hash
+                hash_code = (self.coeff_a[idx] * shingle_id +
+                             self.coeff_b[idx]) % self.prime_above_max_hash
                 # Track the lowest hash code seen.
                 if hash_code < min_hash_code:
                     min_hash_code = hash_code
@@ -151,18 +154,20 @@ class TextDeduplicater:
         """
         new_arr = [tuple(row) for row in self.hash_data]  # type: ignore
         _, indices = np.unique(new_arr, axis=0, return_index=True)
-        names = [self.idx_to_doc_name[idx] for idx in indices]  # type: List[str]
+        names = [self.idx_to_doc_name[idx]
+                 for idx in indices]  # type: List[str]
         return names
 
     # pylint: disable=too-many-locals
-    def get_possible_duplicate_doc_names(self, threshold: float = 0.0) -> List[Tuple[str, str]]:
+    def get_possible_duplicate_doc_names(
+            self, threshold: float = 1.0) -> List[Tuple[str, str]]:
         """
         Get list of duplicate document names.
 
         We reduce our search space from N**2 to M**2 where M is the number of rows where at least
         one column matches with another one.
 
-        :param threshold: 0.0 for exact match. 0.2 for 80% match, etc
+        :param threshold: the percentage of matching columns, 1.0 for exact match. 0.8 for 80%, etc.
         :return: a list of tuples of possible duplicate document name pairs
 
         >>> deduper = TextDeduplicater()
@@ -203,8 +208,9 @@ class TextDeduplicater:
                 distinct_rows_to_compare.add((row1, row2))
         evaluations = [(self.idx_to_doc_name[row1], self.idx_to_doc_name[row2])
                        for row1, row2 in distinct_rows_to_compare
-                       if cosine(self.hash_data[row1],
-                                 self.hash_data[row2]) == threshold]  # type: List[Tuple[str, str]]
+                       if sum(np.array(self.hash_data[row1]) ==
+                              np.array(self.hash_data[row2]))
+                       / float(self.num_hash_fun) >= threshold]  # type: List[Tuple[str, str]]
         return evaluations
 
     def calculate_similarity(self, text_one: str, text_two: str) -> float:
@@ -267,7 +273,8 @@ def grammify(word_list: List[str], num: int = 3):
     return [word_list[i:i + num] for i in range(len(word_list) - num + 1)]
 
 
-def pick_random_coeffs(num: int, max_hash: int = MAX_SHINGLE_HASH)->List[int]:
+def pick_random_coeffs(num: int,
+                       max_hash: int = MAX_SHINGLE_HASH) -> List[int]:
     """
     Generate a list of 'num' random coefficients for the random hash functions, while ensuring
     that the same value does not appear multiple times in the list.
