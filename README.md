@@ -4,7 +4,7 @@
 Practical Machine Learning and Natural Language Processing with examples.
 
 ## Featuring
-* Interesting applications of NLP and ML
+* Interesting applications ML, NLP, Computer Vision
 * Practical demonstration notebooks
 * Reproducible experiments
 * Illustrated best practices:
@@ -71,3 +71,6 @@ mkdir p3
 ### Quality Embeddings 
 * [16. Generate English Wikipedia word vector](quality_embeddings/generate_latin_word_vector.ipynb) 
 * [17. Generate Latin word vector](quality_embeddings/generate_latin_word_vector.ipynb) 
+### Computer Vision - Object Detection
+* [18. Object detection as a multivariable regression using a custom Convnet](computer_vision_object_detection/train_noisy_circle_detector.ipynb)
+* [19. Assessing the Noisy Circle detector](computer_vision_object_detection/assess_noisy_circle_detector.ipynb)
