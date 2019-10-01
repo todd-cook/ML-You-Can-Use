@@ -53,7 +53,7 @@ mkdir p3
 * [2. Making a Frequency Distribution](probablistic_language_modeling/make_frequency_distribution.ipynb)
 * [3. Making a Word Trie Probability Model](probablistic_language_modeling/make_trie_language_model.ipynb)
 ### Detecting Duplicate Documents
-* [4. Merge corpora by detected and filtering duplicate documents](document_deduplication/find_duplicate_docs.ipynb)
+* [4. Merge corpora by detecting and filtering duplicate documents](document_deduplication/find_duplicate_docs.ipynb)
 ### Classifying Texts
 * [5. Benchmarking our classifier](text_classification/imdb_benchmark.ipynb)
 * [6. Boostrapping Document Classification](text_classification/bootstrapping_document_classification.ipynb)

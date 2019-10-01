@@ -193,7 +193,7 @@ def create_embeddings_matrix(embeddings_index: Dict[str, ndarray],
     # pylint: disable=no-member
     if init_by_variance:
         cols = list(embeddings_index.values())[0].shape[0]
-        embed_ar = np.asarray([tmp for tmp in embeddings_index.values()])
+        embed_ar = np.asarray(list(embeddings_index.values()))
         matrix_variance = np.asarray(
             [np.var(embed_ar[:, idx]) for idx in range(cols)])
         del embed_ar
