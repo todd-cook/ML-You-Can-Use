@@ -74,3 +74,15 @@ mkdir p3
 ### Computer Vision - Object Detection
 * [18. Object detection as a multivariable regression using a custom Convnet](computer_vision_object_detection/train_noisy_circle_detector.ipynb)
 * [19. Assessing the Noisy Circle detector](computer_vision_object_detection/assess_noisy_circle_detector.ipynb)
+
+# References and Acknowledgements    
+* [A Sensitivity Analysis of (and Practitioners' Guide to) Convolutional Neural Networks for Sentence Classification by Ye Zhang, Byron Wallace](https://arxiv.org/abs/1510.03820)
+* [Word2vec applied to Recommendation: Hyperparameters Matter byHugo Caselles-Dupré, Florian Lesaint, Jimena Royo-Letelier](https://arxiv.org/pdf/1804.04212)
+* [Exploiting Similarities among Languages for Machine Translation by Tomas Mikolov, Quoc V. Le, Ilya Sutskever](https://arxiv.org/abs/1309.4168)
+* [Distributed Representations of Words and Phrases and their Compositionality by Tomas Mikolov, Ilya Sutskever, Kai Chen, Greg Corrado, Jeffrey Dean ](https://arxiv.org/abs/1310.4546)
+* [Deep Learning with Python by Francois Chollet](https://github.com/fchollet/deep-learning-with-python-notebooks)
+* [Mining Massive Datasets](http://www.mmds.org)
+* [Chris McCormick MinHash Tutorial with Python Code](http://mccormickml.com/2015/06/12/minhash-tutorial-with-python-code)
+* [Convolutional Neural Networks for Text Classification by David S. Batista](http://www.davidsbatista.net/blog/2018/03/31/SentenceClassificationConvNets/)
+* [Convolutional Neural Networks for Sentence Classification by Yoon Kim](https://arxiv.org/abs/1408.5882)
+
