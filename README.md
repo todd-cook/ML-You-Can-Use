@@ -74,6 +74,8 @@ mkdir p3
 ### Computer Vision - Object Detection
 * [18. Object detection as a multivariable regression using a custom Convnet](computer_vision_object_detection/train_noisy_circle_detector.ipynb)
 * [19. Assessing the Noisy Circle detector](computer_vision_object_detection/assess_noisy_circle_detector.ipynb)
+### Summarizing Texts
+* [20. Assessing Headline Generation](summarization/neural_headline_generation_metrics.ipynb)
 
 # References and Acknowledgements    
 * [A Sensitivity Analysis of (and Practitioners' Guide to) Convolutional Neural Networks for Sentence Classification by Ye Zhang, Byron Wallace](https://arxiv.org/abs/1510.03820)

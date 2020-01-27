@@ -6,7 +6,7 @@ import logging
 import pickle
 import shutil
 from pathlib import Path
-from typing import Dict, List
+from typing import Dict, List, Tuple
 from urllib.parse import urlparse
 
 import numpy as np
@@ -120,6 +120,26 @@ def get_embeddings_index(embedding_name: str,
     embeddings_index = load_embeddings(str(embed_file), embedding_dimensions=embedding_dimensions)
     return embeddings_index
 
+def read_text_embeddings(embedding_file: str,
+                         embedding_dimensions: int = 300) -> Tuple[Dict[str, int], List[ndarray]]:
+    """
+    :param embedding_file:
+    :param embedding_dimensions:
+    :return:
+    """
+    embeddings_index = [] # type: List[ ndarray]
+    word_positions = {} # Type: Dict[str, int]
+    with open(embedding_file) as the_file:
+        for idx, line in enumerate(the_file):
+            # if header, skip first line
+            values = line.rsplit(maxsplit=embedding_dimensions)
+            word = values[0]
+            word_positions[word] = idx
+            matrix_row = np.asarray(values[1:], dtype='float32')
+            assert embedding_dimensions == len(matrix_row)
+            embeddings_index.append(matrix_row)
+    return word_positions, embeddings_index
+
 
 def load_embeddings(embedding_file: str, embedding_dimensions: int = 300) -> Dict[str, ndarray]:
     """
@@ -131,7 +151,8 @@ def load_embeddings(embedding_file: str, embedding_dimensions: int = 300) -> Dic
     >>> import tempfile, os
     >>> _, tmp_file = tempfile.mkstemp()
     >>> test_file = open(tmp_file, mode='wt')
-    >>> _ = test_file.write('{} {}'.format('quick', np.array2string(np.random.rand(10)[0])))
+    >>> _ = test_file.write('{} {}'.format('quick',
+    ... np.array2string(np.random.rand(10)).replace('\\n', '')[1:-1]))
     >>> test_file.close()
     >>> embed_map = load_embeddings(test_file.name, embedding_dimensions=10)
     >>> type(list(embed_map.keys())[0]) == str
@@ -143,12 +164,10 @@ def load_embeddings(embedding_file: str, embedding_dimensions: int = 300) -> Dic
     """
     embeddings_index = {}  # type: Dict[str, ndarray]
     if not is_binary(embedding_file):
-        with open(embedding_file) as the_file:
-            for line in the_file:
-                values = line.rsplit(maxsplit=embedding_dimensions)
-                word = values[0]
-                coefs = np.asarray(values[1:], dtype='float32')
-                embeddings_index[word] = coefs
+        positions, embeddings_matrix = read_text_embeddings(embedding_file, embedding_dimensions)
+        assert len(embeddings_matrix[0]) == embedding_dimensions
+        for word in positions:
+            embeddings_index[word] = embeddings_matrix[positions[word]]
     else:
         try:
             keyed_vectors = models.KeyedVectors.load(embedding_file)
