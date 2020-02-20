@@ -52,30 +52,31 @@ mkdir p3
 * [1. Assessing Corpus Quality](probablistic_language_modeling/assessing_corpus_quality.ipynb)
 * [2. Making a Frequency Distribution](probablistic_language_modeling/make_frequency_distribution.ipynb)
 * [3. Making a Word Trie Probability Model](probablistic_language_modeling/make_trie_language_model.ipynb)
+* [4. Word and Sentence Probability using BERT](probablistic_language_modeling/automatic_grammatical_error_corrections_using_BERT_GPT2.ipynb)
 ### Detecting Duplicate Documents
-* [4. Merge corpora by detecting and filtering duplicate documents](document_deduplication/find_duplicate_docs.ipynb)
+* [5. Merge corpora by detecting and filtering duplicate documents](document_deduplication/find_duplicate_docs.ipynb)
 ### Classifying Texts
-* [5. Benchmarking our classifier](text_classification/imdb_benchmark.ipynb)
-* [6. Boostrapping Document Classification](text_classification/bootstrapping_document_classification.ipynb)
+* [6. Benchmarking our classifier](text_classification/imdb_benchmark.ipynb)
+* [7. Boostrapping Document Classification](text_classification/bootstrapping_document_classification.ipynb)
 ### Detecting Loanwords
-* [7. Making a Frequency Distribution of Transliterated Greek](detecting_loanwords/make_frequency_distribution_greek_transliterated.ipynb)
-* [8. Boosting Training Data](detecting_loanwords/boosting_training_data.ipynb)
-* [9. The Problem of Loanwords, and a Solution](detecting_loanwords/loanwords_problems_solutions.ipynb)
-* [10. Feature Engineering with the Loanwords matrix](detecting_loanwords/loanwords_feature_engineering.ipynb)
-* [11. Detecting Loanwords with Keras](detecting_loanwords/detecting_loanwords_keras..ipynb)
+* [8. Making a Frequency Distribution of Transliterated Greek](detecting_loanwords/make_frequency_distribution_greek_transliterated.ipynb)
+* [9. Boosting Training Data](detecting_loanwords/boosting_training_data.ipynb)
+* [10. The Problem of Loanwords, and a Solution](detecting_loanwords/loanwords_problems_solutions.ipynb)
+* [11. Feature Engineering with the Loanwords matrix](detecting_loanwords/loanwords_feature_engineering.ipynb)
+* [12. Detecting Loanwords with Keras](detecting_loanwords/detecting_loanwords_keras..ipynb)
 ### Wikipedia Corpus Processing
-* [12. English Wikipedia Corpus Cleaning](wikipedia_corpus_processing/clean_english_wiki_corpus.ipynb)
-* [13. English Wikipedia Corpus Processing](wikipedia_corpus_processing/create_corpus_from_english_wiki.ipynb)
-* [14. Latin Corpus Processing](wikipedia_corpus_processing/create_corpus_from_latin_wiki.ipynb)
-* [15. Down sample or not](wikipedia_corpus_processing/down_sample_or_not.ipynb)
+* [13. English Wikipedia Corpus Cleaning](wikipedia_corpus_processing/clean_english_wiki_corpus.ipynb)
+* [14. English Wikipedia Corpus Processing](wikipedia_corpus_processing/create_corpus_from_english_wiki.ipynb)
+* [15. Latin Corpus Processing](wikipedia_corpus_processing/create_corpus_from_latin_wiki.ipynb)
+* [16. Down sample or not](wikipedia_corpus_processing/down_sample_or_not.ipynb)
 ### Quality Embeddings 
-* [16. Generate English Wikipedia word vector](quality_embeddings/generate_latin_word_vector.ipynb) 
-* [17. Generate Latin word vector](quality_embeddings/generate_latin_word_vector.ipynb) 
+* [17. Generate English Wikipedia word vector](quality_embeddings/generate_latin_word_vector.ipynb) 
+* [18. Generate Latin word vector](quality_embeddings/generate_latin_word_vector.ipynb) 
 ### Computer Vision - Object Detection
-* [18. Object detection as a multivariable regression using a custom Convnet](computer_vision_object_detection/train_noisy_circle_detector.ipynb)
-* [19. Assessing the Noisy Circle detector](computer_vision_object_detection/assess_noisy_circle_detector.ipynb)
+* [19. Object detection as a multivariable regression using a custom Convnet](computer_vision_object_detection/train_noisy_circle_detector.ipynb)
+* [20. Assessing the Noisy Circle detector](computer_vision_object_detection/assess_noisy_circle_detector.ipynb)
 ### Summarizing Texts
-* [20. Assessing Headline Generation](summarization/neural_headline_generation_metrics.ipynb)
+* [21. Assessing Headline Generation](summarization/neural_headline_generation_metrics.ipynb)
 
 # References and Acknowledgements    
 * [A Sensitivity Analysis of (and Practitioners' Guide to) Convolutional Neural Networks for Sentence Classification by Ye Zhang, Byron Wallace](https://arxiv.org/abs/1510.03820)
@@ -87,4 +88,5 @@ mkdir p3
 * [Chris McCormick MinHash Tutorial with Python Code](http://mccormickml.com/2015/06/12/minhash-tutorial-with-python-code)
 * [Convolutional Neural Networks for Text Classification by David S. Batista](http://www.davidsbatista.net/blog/2018/03/31/SentenceClassificationConvNets/)
 * [Convolutional Neural Networks for Sentence Classification by Yoon Kim](https://arxiv.org/abs/1408.5882)
-
+* [The Unreasonable Effectiveness of Transformer Language Models in Grammatical Error Correction by Dimitris Alikaniotis, Vipul Raheja](https://arxiv.org/abs/1906.01733)    
+* [BERT has a Mouth, and It Must Speak: BERT as a Markov Random Field Language Model by Alex Wang, Kyunghyun Cho](https://arxiv.org/pdf/1902.04094.pdf)
