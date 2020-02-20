@@ -3,8 +3,8 @@ from typing import Tuple, List, Any
 import logging
 import numpy as np
 
-__author__ = 'Todd Cook <todd.g.cook@gmail.com>'
-__license__ = 'MIT License'
+__author__ = "Todd Cook <todd.g.cook@gmail.com>"
+__license__ = "MIT License"
 
 LOG = logging.getLogger(__name__)
 LOG.addHandler(logging.NullHandler())
@@ -34,16 +34,20 @@ def run_length_encoding(in_array: List[int]) -> Tuple[Any, Any, Any]:
     arr = np.asarray(in_array)
     size = len(arr)
     if not size:
-        return (np.array([], dtype=int),
-                np.array([], dtype=int),
-                np.array([], dtype=arr.dtype))
+        return (
+            np.array([], dtype=int),
+            np.array([], dtype=int),
+            np.array([], dtype=arr.dtype),
+        )
     starts = np.r_[0, where(~np.isclose(arr[1:], arr[:-1], equal_nan=True)) + 1]
     lengths = np.diff(np.r_[starts, size])
     values = arr[starts]
     return starts, lengths, values
 
 
-def extract_words(sentence: List[str], starts: List[int], lengths: List[int], values: List[int]):
+def extract_words(
+    sentence: List[str], starts: List[int], lengths: List[int], values: List[int]
+):
     """
     Extract words based on consecutive marks; isolate marks not harvested.
     Note, this will return groups of words in separate lists, you will probably want to also use
@@ -65,12 +69,15 @@ def extract_words(sentence: List[str], starts: List[int], lengths: List[int], va
     []
 
     """
-    return [sentence[starts[idx]: starts[idx] + lengths[idx]]
-            for idx, tmp in enumerate(values)
-            if tmp == 1
-            if lengths[idx] > 1]
+    return [
+        sentence[starts[idx] : starts[idx] + lengths[idx]]
+        for idx, tmp in enumerate(values)
+        if tmp == 1
+        if lengths[idx] > 1
+    ]
 
-def merge_words(word_matrix: List[List[str]])->List[str]:
+
+def merge_words(word_matrix: List[List[str]]) -> List[str]:
     """
     Merge lists of lists into one list.
     :param word_matrix:
@@ -81,12 +88,13 @@ def merge_words(word_matrix: List[List[str]])->List[str]:
 
     """
     if not word_matrix:
-        return word_matrix # type: ignore
+        return word_matrix  # type: ignore
     return [item for items in word_matrix for item in items]
 
 
-
-def extract_consecutive_indices(starts: List[int], lengths: List[int], values: List[int]):
+def extract_consecutive_indices(
+    starts: List[int], lengths: List[int], values: List[int]
+):
     """
     :param starts:
     :param lengths:
@@ -108,10 +116,11 @@ def extract_consecutive_indices(starts: List[int], lengths: List[int], values: L
     [0, 1, 2, 6, 7, 8]
 
     """
-    places = [(starts[idx], starts[idx] + lengths[idx])
-              for idx, tmp in enumerate(values)
-              if tmp == 1 and lengths[idx] > 1
-              ]
+    places = [
+        (starts[idx], starts[idx] + lengths[idx])
+        for idx, tmp in enumerate(values)
+        if tmp == 1 and lengths[idx] > 1
+    ]
     input_list = [list(range(a, b)) for a, b in places]
     return np.concatenate(input_list).ravel().tolist()
 
@@ -137,11 +146,15 @@ def match_sequence(arr: List[int], seq: List[int]):
 
     # Create a 2D array of sliding indices across the entire length of input array.
     # Match up with the input sequence & get the matching starting indices.
-    m_vals = (the_arr[np.arange(num_arr - num_seq + 1)[:, None] + r_seq] == the_seq).all(1)
+    m_vals = (
+        the_arr[np.arange(num_arr - num_seq + 1)[:, None] + r_seq] == the_seq
+    ).all(1)
 
     # Get the range of those indices as final output
     if m_vals.any() > 0:
-        return np.where(np.convolve(m_vals, np.ones((num_seq), dtype=int)) > 0)[0].tolist()
+        return np.where(np.convolve(m_vals, np.ones((num_seq), dtype=int)) > 0)[
+            0
+        ].tolist()
     return []
 
 

@@ -5,13 +5,14 @@ from typing import List, Any
 
 from sklearn.base import BaseEstimator, TransformerMixin
 
-__author__ = 'Todd Cook <todd.g.cook@gmail.com>'
-__license__ = 'MIT License'
+__author__ = "Todd Cook <todd.g.cook@gmail.com>"
+__license__ = "MIT License"
 
 LOG = logging.getLogger(__name__)
 LOG.addHandler(logging.NullHandler())
 
 # pylint: disable=invalid-name,unused-argument
+
 
 class SmartLowerTransformer(BaseEstimator, TransformerMixin):
     """
@@ -31,9 +32,11 @@ class SmartLowerTransformer(BaseEstimator, TransformerMixin):
 
         :param lower_only_file:
         """
-        self.words_always_lower = set() if not words_always_lower else set(words_always_lower)
+        self.words_always_lower = (
+            set() if not words_always_lower else set(words_always_lower)
+        )
         if lower_only_file:
-            with open(lower_only_file, 'rt', encoding='utf-8') as reader:
+            with open(lower_only_file, "rt", encoding="utf-8") as reader:
                 for line in reader:
                     self.words_always_lower.add(line.strip())
 
@@ -72,6 +75,7 @@ class SmartLowerTransformer(BaseEstimator, TransformerMixin):
         :param string_matrix:
         :return:
         """
-        return [[self._correct_word(idx, word)
-                 for idx, word in enumerate(sentence)]
-                for sentence in string_matrix]
+        return [
+            [self._correct_word(idx, word) for idx, word in enumerate(sentence)]
+            for sentence in string_matrix
+        ]

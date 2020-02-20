@@ -4,13 +4,14 @@ import re
 from typing import List
 import logging
 
-__author__ = 'Todd Cook <todd.g.cook@gmail.com>'
-__license__ = 'MIT License'
+__author__ = "Todd Cook <todd.g.cook@gmail.com>"
+__license__ = "MIT License"
 
 LOG = logging.getLogger(__name__)
 LOG.addHandler(logging.NullHandler())
 
-class AEOEReplacer: # pylint: disable=too-few-public-methods
+
+class AEOEReplacer:  # pylint: disable=too-few-public-methods
     """Replace 'œæ' with AE, 'Œ Æ' with OE.
     Classical Latin wrote the o and e separately (as has today again become the general practice),
      but the ligature was used by medieval and early modern writings, in part because the
@@ -24,9 +25,8 @@ class AEOEReplacer: # pylint: disable=too-few-public-methods
 
     def __init__(self):
         """Initialization for JVReplacer, reads replacement pattern tuple."""
-        patterns = [(r'œ', 'oe'), (r'æ', 'ae'), (r'Œ', 'OE'), (r'Æ', 'AE')]
-        self.patterns = \
-            [(re.compile(regex), repl) for (regex, repl) in patterns]
+        patterns = [(r"œ", "oe"), (r"æ", "ae"), (r"Œ", "OE"), (r"Æ", "AE")]
+        self.patterns = [(re.compile(regex), repl) for (regex, repl) in patterns]
 
     def replace(self, text):
         """Do character replacement."""
@@ -44,6 +44,6 @@ def aeoe_transform(string_matrix: List[List[str]]) -> List[List[str]]:
     [['poema', 'caesar', 'POEMATA'], ['CAESAR']]
     """
     aeoe_replacer = AEOEReplacer()
-    return [[aeoe_replacer.replace(word)
-             for word in sentence]
-            for sentence in string_matrix]
+    return [
+        [aeoe_replacer.replace(word) for word in sentence] for sentence in string_matrix
+    ]

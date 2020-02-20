@@ -30,9 +30,9 @@ def predict_next_token(
             predictions[-1, :], top
         )
         id_prob = list(zip(indices, values))
-        return tuple(
-            [  # type: ignore
-                (gpt2_tokenizer.decode(int(tmp[0])).strip(), float(tmp[1]))
-                for tmp in id_prob
-            ]
-        )
+    return tuple(
+        [  # type: ignore
+            (gpt2_tokenizer.decode(int(tmp[0])).strip(), float(tmp[1]))
+            for tmp in id_prob
+        ]
+    )

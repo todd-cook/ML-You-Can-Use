@@ -2,11 +2,12 @@
 import logging
 from typing import List, Dict  # pylint: disable=unused-import
 
-__author__ = 'Todd Cook <todd.g.cook@gmail.com>'
-__license__ = 'MIT License'
+__author__ = "Todd Cook <todd.g.cook@gmail.com>"
+__license__ = "MIT License"
 
 LOG = logging.getLogger(__name__)
 LOG.addHandler(logging.NullHandler())
+
 
 class WordTrie:
     """Keep track of whole words in a collection."""
@@ -29,7 +30,7 @@ class WordTrie:
                 curr_root[car] = {}  # type: ignore
             curr_root = curr_root[car]  # type: ignore
         if not curr_root.get(self.eot):
-            curr_root[self.eot] = ''
+            curr_root[self.eot] = ""
 
     def add_all(self, words: List[str]) -> None:
         """
@@ -70,8 +71,7 @@ class WordTrie:
             return True
         return False
 
-    def extract_word_pair(self, long_word: str,
-                          min_word_length=4) -> List[str]:
+    def extract_word_pair(self, long_word: str, min_word_length=4) -> List[str]:
         """
         4 characters = min word length to join; thus,
          we skip many short prepositions which often get added to verbs
@@ -90,8 +90,7 @@ class WordTrie:
         """
         if len(long_word) < min_word_length * 2 or self.has_word(long_word):
             return [long_word]
-        for idx in range(min_word_length,
-                         len(long_word) - min_word_length + 1):
+        for idx in range(min_word_length, len(long_word) - min_word_length + 1):
             word1 = long_word[:idx]
             word2 = long_word[idx:]
             if self.has_word(word1) and self.has_word(word2):
