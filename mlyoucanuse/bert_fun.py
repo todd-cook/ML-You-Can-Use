@@ -36,7 +36,7 @@ def get_word_probabilities(
     start_token_id = bert_tokenizer.encode("[CLS]", add_special_tokens=False)
     end_token_id = bert_tokenizer.encode("[SEP]", add_special_tokens=False)
     total_tokens = len(list(chain.from_iterable(bert_token_map.values())))
-    LOG.debug("total bert tokens: %s whole tokens: %s", total_tokens, len(whole_tokens))
+    LOG.debug("# bert tokens: %s # whole tokens: %s", total_tokens, len(whole_tokens))
     torch.set_grad_enabled(False)
     word_probas = []
     for idx in bert_token_map:
@@ -50,7 +50,7 @@ def get_word_probabilities(
             )
             the_tokens = list(chain.from_iterable(tmp_token_map.values()))
             indexed_tokens = list(start_token_id) + the_tokens + list(end_token_id)
-            LOG.debug(",".join([str(tmp) for tmp in indexed_tokens]))
+            LOG.debug("index tokens %s", ",".join([str(tmp) for tmp in indexed_tokens]))
             predictions = _make_predictions(indexed_tokens, bert_model)
         # get true index for predictions
         starting_position = (
@@ -94,7 +94,7 @@ def get_word_probabilities(
 
 def get_alternate_words(
     sentence: str,
-    word_number: int,
+    word_index: int,
     bert_model: BertForMaskedLM,
     bert_tokenizer: BertTokenizer,
     top: int = 10,
@@ -103,7 +103,7 @@ def get_alternate_words(
     Get N alternate words for a particular word in a sentence.
 
     :param sentence:
-    :param word_number: word index counting from 1
+    :param word_index: zero based index
     :param bert_model:
     :param bert_tokenizer:
     :param top:
@@ -112,9 +112,9 @@ def get_alternate_words(
     whole_tokens = word_tokenize(sentence)
     bert_token_map = {
         idx: bert_tokenizer.encode(whole_token, add_special_tokens=False)
-        for idx, whole_token in enumerate(whole_tokens, 1)
+        for idx, whole_token in enumerate(whole_tokens)
     }
-    bert_token_map[word_number] = bert_tokenizer.encode(
+    bert_token_map[word_index] = bert_tokenizer.encode(
         "[MASK]", add_special_tokens=False
     )
     total_tokens = len(list(chain.from_iterable(bert_token_map.values())))
@@ -128,13 +128,12 @@ def get_alternate_words(
         len(
             list(
                 chain.from_iterable(
-                    [vals for key, vals in bert_token_map.items() if key < word_number]
+                    [vals for key, vals in bert_token_map.items() if key < word_index]
                 )
             )
         )
         + 1
     )
-
     probas, indices = torch.topk(  # pylint: disable=no-member
         predictions[the_word_idx], top
     )
@@ -142,7 +141,9 @@ def get_alternate_words(
     return list(zip(alt_words, probas.tolist()))  # type: ignore
 
 
-def _prepare_predictions(bert_token_map, bert_tokenizer):
+def _prepare_predictions(
+    bert_token_map: Dict[int, List[int]], bert_tokenizer: BertTokenizer
+):
     """
     Helper method
     :param start_token_id:
@@ -183,10 +184,10 @@ def get_word_in_sentence_probability(
     word: str,
     bert_model: BertForMaskedLM,
     bert_tokenizer: BertTokenizer,
-    position: int = -1,
+    word_index: int = -1,
 ) -> Tuple[Tuple[str, float], ...]:
     """
-    Given a sentence, and a slot, determine what the probablity is for a given word.
+    Given a sentence, and a slot, determine what the probability is for a given word.
     Reports subword tokenization probabilities.
 
     :param sentence: A sentence providing context for the word.
@@ -194,24 +195,26 @@ def get_word_in_sentence_probability(
     you provide, you will have to also pass a position argument.
     :param bert_model: an instance of BertForMaskedLM (preferably cased, large)
     :param bert_tokenizer: a BertTokenizer (preferably cased, large)
-    :param position: The location in the sentence for which you would like the probability of
+    :param word_index: The location in the sentence for which you would like the probability of
      the `word` parameter. Zero-based index of the words.
     :return: a tuple of tuples of (token:str, probability:float) and the probability value
     represents the raw softmax value, not a value 0-100.0
     """
     whole_tokens = word_tokenize(sentence)
-    if position == -1:
-        position = whole_tokens.index(word)
+    if word_index == -1:
+        word_index = whole_tokens.index(word)
     bert_token_map = {
         idx: bert_tokenizer.encode(whole_token, add_special_tokens=False)
         for idx, whole_token in enumerate(whole_tokens)
     }  # type: Dict[int,List[int]]
     mask_token_id = bert_tokenizer.encode("[MASK]", add_special_tokens=False)
-    the_token_id = bert_tokenizer.encode(word, add_special_tokens=False)
-    if len(the_token_id) > 1:
-        bert_token_map[position] = mask_token_id * len(the_token_id)  # type: ignore
-    total_tokens = len(list(chain.from_iterable(bert_token_map.values())))
-    LOG.debug("total bert tokens: %s whole tokens: %s", total_tokens, len(whole_tokens))
+    tokens_to_predict = bert_tokenizer.encode(word, add_special_tokens=False)
+    bert_token_map[word_index] = mask_token_id * len(tokens_to_predict)  # type: ignore
+    LOG.debug(
+        "total bert tokens: %s whole tokens: %s",
+        len(list(chain.from_iterable(bert_token_map.values()))),
+        len(whole_tokens),
+    )
     torch.set_grad_enabled(False)
     bert_model.eval()
     # to find the true index of the desired word; count all of the tokens and subtokens before
@@ -220,7 +223,7 @@ def get_word_in_sentence_probability(
             list(
                 chain.from_iterable(
                     [
-                        vals for key, vals in bert_token_map.items() if key < position
+                        vals for key, vals in bert_token_map.items() if key < word_index
                     ]  # type : ignore
                 )
             )
@@ -230,15 +233,15 @@ def get_word_in_sentence_probability(
     predictions = _make_predictions(
         _prepare_predictions(bert_token_map, bert_tokenizer), bert_model
     )
-    if len(the_token_id) == 1:
-        return tuple([predictions[starting_position][the_token_id].item()])
+    if len(tokens_to_predict) == 1:
+        return tuple([predictions[starting_position][tokens_to_predict].item()])
     return tuple(
         [
             (
                 bert_tokenizer.convert_ids_to_tokens(tmp),
                 predictions[starting_position + idx][tmp].item(),  # type: ignore
             )
-            for idx, tmp in enumerate(the_token_id)
+            for idx, tmp in enumerate(tokens_to_predict)
         ]
     )  # type: ignore
 
