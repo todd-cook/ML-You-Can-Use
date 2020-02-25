@@ -33,11 +33,12 @@ def predict_next_token(
     :param top: the number of probable tokens to return
     :return: a tuple of tuples (token, probability)
 
-    >>> gpt2_tokenizer = GPT2Tokenizer.from_pretrained('gpt2')
-    >>> gpt2_model = GPT2LMHeadModel.from_pretrained('gpt2')
-    >>> _ = gpt2_model.eval()
-    >>> predict_next_token('I am looking', gpt2_model, gpt2_tokenizer)
-    (('forward', 0.3665640652179718), ('for', 0.35346919298171997), ('to', 0.08423731476068497))
+    ## OOME on circleci :-(
+    # >>> gpt2_tokenizer = GPT2Tokenizer.from_pretrained('gpt2')
+    # >>> gpt2_model = GPT2LMHeadModel.from_pretrained('gpt2')
+    # >>> _ = gpt2_model.eval()
+    # >>> predict_next_token('I am looking', gpt2_model, gpt2_tokenizer)
+    # (('forward', 0.3665640652179718), ('for', 0.35346919298171997), ('to', 0.08423731476068497))
 
     """
     tokens_tensor = torch.tensor(  # pylint: disable=not-callable
