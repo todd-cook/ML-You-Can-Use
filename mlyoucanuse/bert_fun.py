@@ -1,3 +1,16 @@
+# Copyright 2020 Todd Cook
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#  http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
 """`bert_fun.py` - some useful utility methods for interacting with BERT models"""
 from copy import deepcopy
 import logging
@@ -23,10 +36,21 @@ def get_word_probabilities(
     Returns the probability of each word in a sentence.
     Returns a sequence of subtokens and their probabilities.
 
-    :param sentence:
-    :param bert_model:
-    :param bert_tokenizer:
-    :return:
+    :param sentence: A sentence providing context for the word, max tokens 512.
+    :param bert_model: an instance of BertForMaskedLM (preferably cased, large)
+    :param bert_tokenizer: a BertTokenizer (preferably cased, large)
+    :return: a Tuple of values: original token string, word as subtokens, subtoken ids
+
+    >>> from transformers import BertTokenizer, BertForMaskedLM
+    >>> bert_tokenizer = BertTokenizer.from_pretrained('bert-large-cased')
+    >>> bert_model = BertForMaskedLM.from_pretrained("bert-large-cased-whole-word-masking")
+    >>> _ = bert_model.eval()
+    >>> get_word_probabilities(sentence="I am psychologist.",
+    ... bert_tokenizer=bert_tokenizer, bert_model=bert_model)
+    (('I', ('I',), (0.9858765006065369,)), ('am', ('am',), (0.6945590376853943,)), \
+('psychologist', ('psychologist',), (4.13914813179872e-06,)), \
+('.', ('.',), (0.8961634635925293,)))
+
     """
     whole_tokens = word_tokenize(sentence)
     bert_token_map = {
@@ -36,9 +60,12 @@ def get_word_probabilities(
     start_token_id = bert_tokenizer.encode("[CLS]", add_special_tokens=False)
     end_token_id = bert_tokenizer.encode("[SEP]", add_special_tokens=False)
     total_tokens = len(list(chain.from_iterable(bert_token_map.values())))
+    if total_tokens > 510:
+        LOG.warning("Too many tokens, should be 510 or less, found %s", total_tokens)
     LOG.debug("# bert tokens: %s # whole tokens: %s", total_tokens, len(whole_tokens))
     torch.set_grad_enabled(False)
     word_probas = []
+    softmax = torch.nn.Softmax(dim=1)
     for idx in bert_token_map:
         LOG.debug("idx %s", idx)
         bert_model.eval()
@@ -51,7 +78,17 @@ def get_word_probabilities(
             the_tokens = list(chain.from_iterable(tmp_token_map.values()))
             indexed_tokens = list(start_token_id) + the_tokens + list(end_token_id)
             LOG.debug("index tokens %s", ",".join([str(tmp) for tmp in indexed_tokens]))
-            predictions = _make_predictions(indexed_tokens, bert_model)
+            # pylint: disable=not-callable,no-member
+            tokens_tensor = torch.tensor([indexed_tokens])
+            segments_tensors = torch.tensor(
+                [
+                    torch.zeros(  # type: ignore
+                        len(indexed_tokens), dtype=int
+                    ).tolist()
+                ]
+            )
+            outputs = bert_model(tokens_tensor, token_type_ids=segments_tensors)
+            predictions = softmax(outputs[0].squeeze(0))
         # get true index for predictions
         starting_position = (
             len(
@@ -98,16 +135,26 @@ def get_alternate_words(
     bert_model: BertForMaskedLM,
     bert_tokenizer: BertTokenizer,
     top: int = 10,
-) -> Tuple[float, List[Tuple[float, str]]]:
+) -> Tuple[Tuple[str, float]]:
     """
     Get N alternate words for a particular word in a sentence.
 
-    :param sentence:
+    :param sentence: A sentence providing context for the word, max tokens 512.
     :param word_index: zero based index
-    :param bert_model:
-    :param bert_tokenizer:
-    :param top:
-    :return:
+    :param bert_model: an instance of BertForMaskedLM (preferably cased, large)
+    :param bert_tokenizer: a BertTokenizer (preferably cased, large)
+    :param top: the number of high probability words you desire.
+    :return: a tuple list of tuples of a word and it's probability.
+
+    >>> from transformers import BertTokenizer, BertForMaskedLM
+    >>> bert_tokenizer = BertTokenizer.from_pretrained('bert-large-cased')
+    >>> bert_model = BertForMaskedLM.from_pretrained("bert-large-cased-whole-word-masking")
+    >>> _ = bert_model.eval()
+    >>> get_alternate_words(sentence="We can order then directly from the web.",
+    ... word_index=3, bert_tokenizer=bert_tokenizer, bert_model=bert_model, top=5)
+    (('them', 0.2891930639743805), ('it', 0.2877180278301239), ('these', 0.034848809242248535), \
+('everything', 0.03310466185212135), ('this', 0.028820807114243507))
+
     """
     whole_tokens = word_tokenize(sentence)
     bert_token_map = {
@@ -120,9 +167,25 @@ def get_alternate_words(
     total_tokens = len(list(chain.from_iterable(bert_token_map.values())))
     LOG.debug("total bert tokens: %s whole tokens: %s", total_tokens, len(whole_tokens))
     torch.set_grad_enabled(False)
-    predictions = _make_predictions(
-        _prepare_predictions(bert_token_map, bert_tokenizer), bert_model
-    )
+
+    start_token_id = bert_tokenizer.encode("[CLS]", add_special_tokens=False)
+    end_token_id = bert_tokenizer.encode("[SEP]", add_special_tokens=False)
+    the_tokens = list(chain.from_iterable(bert_token_map.values()))
+    LOG.debug(bert_tokenizer.convert_ids_to_tokens(the_tokens))
+    indexed_tokens = list(start_token_id) + the_tokens + list(end_token_id)
+    softmax = torch.nn.Softmax(dim=1)
+    with torch.no_grad():
+        # pylint: disable=not-callable,no-member
+        tokens_tensor = torch.tensor([indexed_tokens])
+        segments_tensors = torch.tensor(
+            [
+                torch.zeros(  # type: ignore
+                    len(indexed_tokens), dtype=int
+                ).tolist()
+            ]
+        )
+        outputs = bert_model(tokens_tensor, token_type_ids=segments_tensors)
+        predictions = softmax(outputs[0].squeeze(0))
     # to find the true index of the desired word; count all of the tokens and subtokens before
     the_word_idx = (
         len(
@@ -138,45 +201,7 @@ def get_alternate_words(
         predictions[the_word_idx], top
     )
     alt_words = bert_tokenizer.convert_ids_to_tokens(indices.tolist())
-    return list(zip(alt_words, probas.tolist()))  # type: ignore
-
-
-def _prepare_predictions(
-    bert_token_map: Dict[int, List[int]], bert_tokenizer: BertTokenizer
-):
-    """
-    Helper method
-    :param start_token_id:
-    :param end_token_id:
-    :param bert_token_map:
-    :param bert_model:
-    :param bert_tokenizer:
-    :return:
-    """
-    start_token_id = bert_tokenizer.encode("[CLS]", add_special_tokens=False)
-    end_token_id = bert_tokenizer.encode("[SEP]", add_special_tokens=False)
-    the_tokens = list(chain.from_iterable(bert_token_map.values()))
-    LOG.debug(bert_tokenizer.convert_ids_to_tokens(the_tokens))
-    indexed_tokens = list(start_token_id) + the_tokens + list(end_token_id)
-    LOG.debug(indexed_tokens)
-    return indexed_tokens
-
-
-def _make_predictions(indexed_tokens: List[int], bert_model: BertForMaskedLM):
-    softmax = torch.nn.Softmax(dim=1)
-    with torch.no_grad():
-        # pylint: disable=not-callable,no-member
-        tokens_tensor = torch.tensor([indexed_tokens])
-        segments_tensors = torch.tensor(
-            [
-                torch.zeros(  # type: ignore
-                    len(indexed_tokens), dtype=int
-                ).tolist()
-            ]
-        )
-        outputs = bert_model(tokens_tensor, token_type_ids=segments_tensors)
-        predictions = outputs[0].squeeze(0)
-        return softmax(predictions)
+    return tuple(zip(alt_words, probas.tolist()))  # type: ignore
 
 
 def get_word_in_sentence_probability(
@@ -190,15 +215,24 @@ def get_word_in_sentence_probability(
     Given a sentence, and a slot, determine what the probability is for a given word.
     Reports subword tokenization probabilities.
 
-    :param sentence: A sentence providing context for the word.
+    :param sentence: A sentence providing context for the word, max tokens 512.
     :param word: the word for which you would like the probability; if it's not in the sentence
-    you provide, you will have to also pass a position argument.
+    you provide, you will have to also pass a word_index argument.
     :param bert_model: an instance of BertForMaskedLM (preferably cased, large)
     :param bert_tokenizer: a BertTokenizer (preferably cased, large)
     :param word_index: The location in the sentence for which you would like the probability of
      the `word` parameter. Zero-based index of the words.
     :return: a tuple of tuples of (token:str, probability:float) and the probability value
-    represents the raw softmax value, not a value 0-100.0
+    represents the softmax value.
+
+    >>> from transformers import BertTokenizer, BertForMaskedLM
+    >>> bert_tokenizer = BertTokenizer.from_pretrained('bert-large-cased')
+    >>> bert_model = BertForMaskedLM.from_pretrained("bert-large-cased-whole-word-masking")
+    >>> _ = bert_model.eval()
+    >>> get_word_in_sentence_probability(sentence="Yoga brings peace and vitality to you life.",
+    ... word='your', bert_model=bert_model, bert_tokenizer=bert_tokenizer, word_index=6)
+    (0.004815567284822464,)
+
     """
     whole_tokens = word_tokenize(sentence)
     if word_index == -1:
@@ -230,11 +264,26 @@ def get_word_in_sentence_probability(
         )
         + 1
     )
-    predictions = _make_predictions(
-        _prepare_predictions(bert_token_map, bert_tokenizer), bert_model
-    )
+    start_token_id = bert_tokenizer.encode("[CLS]", add_special_tokens=False)
+    end_token_id = bert_tokenizer.encode("[SEP]", add_special_tokens=False)
+    the_tokens = list(chain.from_iterable(bert_token_map.values()))
+    LOG.debug(bert_tokenizer.convert_ids_to_tokens(the_tokens))
+    indexed_tokens = list(start_token_id) + the_tokens + list(end_token_id)
+    softmax = torch.nn.Softmax(dim=1)
+    with torch.no_grad():
+        # pylint: disable=not-callable,no-member
+        tokens_tensor = torch.tensor([indexed_tokens])
+        segments_tensors = torch.tensor(
+            [
+                torch.zeros(  # type: ignore
+                    len(indexed_tokens), dtype=int
+                ).tolist()
+            ]
+        )
+        outputs = bert_model(tokens_tensor, token_type_ids=segments_tensors)
+        predictions = softmax(outputs[0].squeeze(0))
     if len(tokens_to_predict) == 1:
-        return tuple([predictions[starting_position][tokens_to_predict].item()])
+        return tuple([predictions[starting_position][tokens_to_predict].item()])  # type: ignore
     return tuple(
         [
             (
@@ -259,6 +308,14 @@ def sum_log_probabilities(
     :param results: a tuple collection of tuples string, strings, floats; representing
     the original word, the subword tokens--if any, and the probabilities of the second strings.
     :return: a float of the probability, which should be in the range of 0-100, usually.
+
+    >>> sum_log_probabilities((('I', ('I',), (0.9993333220481873,)),
+    ... ('am', ('am',), (0.6896260380744934,)),
+    ... ('a', ('a',), (0.987400233745575,)),
+    ... ('psychologist', ('psychologist',), (0.0009351802873425186,)),
+    ... ('.', ('.',), (0.9536884427070618,))))
+    15.618708943693967
+
     """
     _, _, data = zip(*results)
     return sum([math.log(tmp * 100) for tmp in chain.from_iterable(data)])  # type: ignore
