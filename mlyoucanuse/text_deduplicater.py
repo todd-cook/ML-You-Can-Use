@@ -1,3 +1,16 @@
+# Copyright 2020 Todd Cook
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#  http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
 """`text_deduplicater.py` - Document deduplication helper class.
 
     Methods for shingling documents in a scalable manner.
@@ -38,13 +51,15 @@ class TextDeduplicater:
     """
 
     # pylint: disable=too-many-arguments
-    def __init__(self,
-                 coeff_a: List[int] = None,
-                 coeff_b: List[int] = None,
-                 num_hash_fun: int = 10,
-                 drop_punctuation: bool = True,
-                 max_hash: int = MAX_SHINGLE_HASH,
-                 prime_above_max_hash: int = PRIME_ABOVE_MAX_HASH):
+    def __init__(
+        self,
+        coeff_a: List[int] = None,
+        coeff_b: List[int] = None,
+        num_hash_fun: int = 10,
+        drop_punctuation: bool = True,
+        max_hash: int = MAX_SHINGLE_HASH,
+        prime_above_max_hash: int = PRIME_ABOVE_MAX_HASH,
+    ):
         """
 
         :param coeff_a: a list of integers to seed the random hash functions
@@ -58,16 +73,15 @@ class TextDeduplicater:
         self.idx_to_doc_name = {}  # type: Dict[int,str]
         self.curr_idx = 0
         self.num_hash_fun = num_hash_fun
-        self.coeff_a = pick_random_coeffs(
-            num_hash_fun) if not coeff_a else coeff_a
-        self.coeff_b = pick_random_coeffs(
-            num_hash_fun) if not coeff_b else coeff_b
-        self.punctuation_substitutions = punctuation_for_spaces_dict(
-        ) if drop_punctuation else None
+        self.coeff_a = pick_random_coeffs(num_hash_fun) if not coeff_a else coeff_a
+        self.coeff_b = pick_random_coeffs(num_hash_fun) if not coeff_b else coeff_b
+        self.punctuation_substitutions = (
+            punctuation_for_spaces_dict() if drop_punctuation else None
+        )
         self.max_hash = max_hash
         self.prime_above_max_hash = prime_above_max_hash
-        self.newline_pattern = re.compile(r'\n')
-        self.multispace_pattern = re.compile(r'\s+')
+        self.newline_pattern = re.compile(r"\n")
+        self.multispace_pattern = re.compile(r"\s+")
 
     # pylint: disable=too-many-locals
 
@@ -91,14 +105,14 @@ class TextDeduplicater:
         if self.punctuation_substitutions:
             text = text.translate(self.punctuation_substitutions)
         # Remove newlines and extra spaces
-        text = self.newline_pattern.sub(' ', text)
-        text = self.multispace_pattern.sub(' ', text)
-        word_list = text.split(' ')
+        text = self.newline_pattern.sub(" ", text)
+        text = self.multispace_pattern.sub(" ", text)
+        word_list = text.split(" ")
         trigrams = grammify(word_list=word_list, num=3)
         # Hash the shingle to a 32-bit integer.
         shingles = []  # type: List[int]
         if not trigrams:
-            LOG.warning('No trigrams found for %s', doc_name)
+            LOG.warning("No trigrams found for %s", doc_name)
             return None
 
         # Hurray, we have trigrams to process; increment counter and record doc name
@@ -107,9 +121,8 @@ class TextDeduplicater:
         self.curr_idx += 1
 
         for shingle in trigrams:
-            shingle_string = ' '.join(list(shingle))
-            crc = binascii.crc32(
-                shingle_string.encode(encoding='UTF-8')) & 0xffffffff
+            shingle_string = " ".join(list(shingle))
+            crc = binascii.crc32(shingle_string.encode(encoding="UTF-8")) & 0xFFFFFFFF
             shingles.append(crc)
         # The resulting minhash signature for this document.
         signature = []
@@ -123,8 +136,9 @@ class TextDeduplicater:
             # For each shingle in the document...
             for shingle_id in shingles:
                 # Evaluate the hash function.
-                hash_code = (self.coeff_a[idx] * shingle_id +
-                             self.coeff_b[idx]) % self.prime_above_max_hash
+                hash_code = (
+                    self.coeff_a[idx] * shingle_id + self.coeff_b[idx]
+                ) % self.prime_above_max_hash
                 # Track the lowest hash code seen.
                 if hash_code < min_hash_code:
                     min_hash_code = hash_code
@@ -154,13 +168,13 @@ class TextDeduplicater:
         """
         new_arr = [tuple(row) for row in self.hash_data]  # type: ignore
         _, indices = np.unique(new_arr, axis=0, return_index=True)
-        names = [self.idx_to_doc_name[idx]
-                 for idx in indices]  # type: List[str]
+        names = [self.idx_to_doc_name[idx] for idx in indices]  # type: List[str]
         return names
 
     # pylint: disable=too-many-locals
     def get_possible_duplicate_doc_names(
-            self, threshold: float = 1.0) -> List[Tuple[str, str]]:
+        self, threshold: float = 1.0
+    ) -> List[Tuple[str, str]]:
         """
         Get list of duplicate document names.
 
@@ -204,13 +218,17 @@ class TextDeduplicater:
         distinct_rows_to_compare = set()  # type: Set[Tuple[int, int]]
         for row1, row2 in rows_to_compare:
             if (row1, row2) not in distinct_rows_to_compare and (
-                    row2, row1) not in distinct_rows_to_compare:
+                row2,
+                row1,
+            ) not in distinct_rows_to_compare:
                 distinct_rows_to_compare.add((row1, row2))
-        evaluations = [(self.idx_to_doc_name[row1], self.idx_to_doc_name[row2])
-                       for row1, row2 in distinct_rows_to_compare
-                       if sum(np.array(self.hash_data[row1]) ==
-                              np.array(self.hash_data[row2]))
-                       / float(self.num_hash_fun) >= threshold]  # type: List[Tuple[str, str]]
+        evaluations = [
+            (self.idx_to_doc_name[row1], self.idx_to_doc_name[row2])
+            for row1, row2 in distinct_rows_to_compare
+            if sum(np.array(self.hash_data[row1]) == np.array(self.hash_data[row2]))
+            / float(self.num_hash_fun)
+            >= threshold
+        ]  # type: List[Tuple[str, str]]
         return evaluations
 
     def calculate_similarity(self, text_one: str, text_two: str) -> float:
@@ -254,8 +272,11 @@ def punctuation_for_spaces_dict() -> Dict[int, str]:
     ... punctuation_for_spaces_dict()).strip())
     I m ok  Oh              Fine
     """
-    return dict((i, " ") for i in range(sys.maxunicode)
-                if unicodedata.category(chr(i)).startswith('P'))
+    return dict(
+        (i, " ")
+        for i in range(sys.maxunicode)
+        if unicodedata.category(chr(i)).startswith("P")
+    )
 
 
 # pylint: disable=line-too-long
@@ -270,11 +291,10 @@ def grammify(word_list: List[str], num: int = 3):
     >>> grammify(word_list[5:], num=3)
     []
     """
-    return [word_list[i:i + num] for i in range(len(word_list) - num + 1)]
+    return [word_list[i : i + num] for i in range(len(word_list) - num + 1)]
 
 
-def pick_random_coeffs(num: int,
-                       max_hash: int = MAX_SHINGLE_HASH) -> List[int]:
+def pick_random_coeffs(num: int, max_hash: int = MAX_SHINGLE_HASH) -> List[int]:
     """
     Generate a list of 'num' random coefficients for the random hash functions, while ensuring
     that the same value does not appear multiple times in the list.

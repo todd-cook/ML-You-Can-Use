@@ -1,3 +1,16 @@
+# Copyright 2020 Todd Cook
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#  http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
 """`featurize_text_fun.py` - functions useful for featurizing text."""
 
 import logging
@@ -5,8 +18,6 @@ from typing import List, Dict, Any
 
 import numpy as np
 
-__author__ = 'Todd Cook <todd.g.cook@gmail.com>'
-__license__ = 'MIT License'
 
 LOG = logging.getLogger(__name__)
 LOG.addHandler(logging.NullHandler())
@@ -30,10 +41,10 @@ def max_suffix(word, max_len=9):
     if not word:
         return word
     if len(word) > 11:
-        return word[- max_len:]
+        return word[-max_len:]
     if len(word) < 6:
         return word
-    return word[-(len(word) - 2):]
+    return word[-(len(word) - 2) :]
 
 
 def featurize(sentence: List[str], idx: int) -> Dict[str, Any]:
@@ -57,21 +68,27 @@ def featurize(sentence: List[str], idx: int) -> Dict[str, Any]:
     if not sentence or idx > len(sentence):
         return {}  # type: ignore
     return {
-        'word': sentence[idx],
-        'first_position': idx == 0,
-        'last_position': idx == len(sentence) - 1,
-        'initial_capitalization': sentence[idx][0].upper() == sentence[idx][0],
-        'all_caps': sentence[idx].upper() == sentence[idx],
-        'all_lower': sentence[idx].lower() == sentence[idx],
-        'ante_previous_word_suffix': '' if idx <= 1 else max_suffix(sentence[idx - 2]),
-        'previous_word_suffix': '' if idx == 0 else max_suffix(sentence[idx - 1]),
-        'word_suffix': max_suffix(sentence[idx]),
-        'penultimate_suffix': '' if idx + 1 >= len(sentence) - 1 else max_suffix(sentence[idx + 1]),
-        'ultimate_suffix': '' if idx + 2 > len(sentence) - 1 else max_suffix(sentence[idx + 2]),
+        "word": sentence[idx],
+        "first_position": idx == 0,
+        "last_position": idx == len(sentence) - 1,
+        "initial_capitalization": sentence[idx][0].upper() == sentence[idx][0],
+        "all_caps": sentence[idx].upper() == sentence[idx],
+        "all_lower": sentence[idx].lower() == sentence[idx],
+        "ante_previous_word_suffix": "" if idx <= 1 else max_suffix(sentence[idx - 2]),
+        "previous_word_suffix": "" if idx == 0 else max_suffix(sentence[idx - 1]),
+        "word_suffix": max_suffix(sentence[idx]),
+        "penultimate_suffix": ""
+        if idx + 1 >= len(sentence) - 1
+        else max_suffix(sentence[idx + 1]),
+        "ultimate_suffix": ""
+        if idx + 2 > len(sentence) - 1
+        else max_suffix(sentence[idx + 2]),
     }
 
 
-def word_to_features(word: str, max_word_length: int = 20, reverse: bool = True) -> List[int]:
+def word_to_features(
+    word: str, max_word_length: int = 20, reverse: bool = True
+) -> List[int]:
     """
 
     :param word: a single word
@@ -90,11 +107,18 @@ def word_to_features(word: str, max_word_length: int = 20, reverse: bool = True)
     if reverse:
         wordlist.reverse()
     if len(wordlist) > max_word_length:
-        LOG.warning('Excessive word length %s for %s, truncating to %s', len(word), word,
-                    max_word_length)
+        LOG.warning(
+            "Excessive word length %s for %s, truncating to %s",
+            len(word),
+            word,
+            max_word_length,
+        )
         wordlist = wordlist[:max_word_length]
     replacer = {32: 0}  # in a feature matrix a space should be a zero, let's force it
-    return [replacer.get(ord(c), ord(c)) for c in "".join(wordlist).ljust(max_word_length, ' ')]
+    return [
+        replacer.get(ord(c), ord(c))
+        for c in "".join(wordlist).ljust(max_word_length, " ")
+    ]
 
 
 def vectorize_features(params):
@@ -104,14 +128,18 @@ def vectorize_features(params):
     :return:
     """
 
-    return np.concatenate((0 if not params['first_position'] else 1,
-                           0 if not params['last_position'] else 1,
-                           0 if not params['initial_capitalization'] else 1,
-                           0 if not params['all_caps'] else 1,
-                           0 if not params['all_lower'] else 1,
-                           word_to_features(params['ante_previous_word_suffix'], max_word_length=9),
-                           word_to_features(params['previous_word_suffix'], max_word_length=9),
-                           word_to_features(params['word'], max_word_length=21),
-                           word_to_features(params['penultimate_suffix'], max_word_length=9),
-                           word_to_features(params['ultimate_suffix'], max_word_length=9)
-                           ), axis=None).tolist()
+    return np.concatenate(
+        (
+            0 if not params["first_position"] else 1,
+            0 if not params["last_position"] else 1,
+            0 if not params["initial_capitalization"] else 1,
+            0 if not params["all_caps"] else 1,
+            0 if not params["all_lower"] else 1,
+            word_to_features(params["ante_previous_word_suffix"], max_word_length=9),
+            word_to_features(params["previous_word_suffix"], max_word_length=9),
+            word_to_features(params["word"], max_word_length=21),
+            word_to_features(params["penultimate_suffix"], max_word_length=9),
+            word_to_features(params["ultimate_suffix"], max_word_length=9),
+        ),
+        axis=None,
+    ).tolist()

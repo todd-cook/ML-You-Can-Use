@@ -1,17 +1,29 @@
+# Copyright 2020 Todd Cook
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#  http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
 """`corpus_fun.py` - functions for corpus processing."""
 import logging
 
-__author__ = 'Todd Cook <todd.g.cook@gmail.com>'
-__license__ = 'MIT License'
 
 LOG = logging.getLogger(__name__)
 LOG.addHandler(logging.NullHandler())
 
 # pylint: disable=line-too-long
 
-def get_file_type_list(all_file_ids,
-                       corpus_texts_by_type=None,
-                       corpus_directories_by_type=None):
+
+def get_file_type_list(
+    all_file_ids, corpus_texts_by_type=None, corpus_directories_by_type=None
+):
     """
     Match CorpusReader's fileids collection to document types.
     :param all_file_ids: a list of fileids, usually filenames
@@ -35,8 +47,8 @@ def get_file_type_list(all_file_ids,
 
     for key, valuelist in corpus_directories_by_type.items():
         for value in valuelist:
-            corrected_dir = value.replace('./', '')
-            corrected_dir = '{}/'.format(corrected_dir)
+            corrected_dir = value.replace("./", "")
+            corrected_dir = "{}/".format(corrected_dir)
             for name in all_file_ids:
                 if name.startswith(corrected_dir):
                     clean_ids_types.append((name, key))

@@ -1,3 +1,16 @@
+# Copyright 2020 Todd Cook
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#  http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
 """`pos_tag_fun.py` - functions for manipulating Part of Speech tags.
 
 The POS tag definitions follow the usage found in the Perseus tagged texts.
@@ -7,74 +20,88 @@ for more info see: https://github.com/PerseusDL/treebank_data.git
 import logging
 from typing import Dict, List  # pylint: disable=unused-import
 
-__author__ = 'Todd Cook <todd.g.cook@gmail.com>'
-__license__ = 'MIT License'
 
 LOG = logging.getLogger(__name__)
 LOG.addHandler(logging.NullHandler())
 
-POS = dict([  # part of speech, position 1
-    ('N', 'noun'),
-    ('V', 'verb'),
-    ('A', 'adjective'),
-    ('D', 'adverb'),
-    ('C', 'conjunction'),
-    ('R', 'preposition'),
-    ('P', 'pronoun'),
-    ('M', 'numeral'),
-    ('I', 'interjection'),
-    ('E', 'exclamation'),
-    ('U', 'punctuation')])  # type: Dict[str, str]
+POS = dict(
+    [  # part of speech, position 1
+        ("N", "noun"),
+        ("V", "verb"),
+        ("A", "adjective"),
+        ("D", "adverb"),
+        ("C", "conjunction"),
+        ("R", "preposition"),
+        ("P", "pronoun"),
+        ("M", "numeral"),
+        ("I", "interjection"),
+        ("E", "exclamation"),
+        ("U", "punctuation"),
+    ]
+)  # type: Dict[str, str]
 
-PERSON = dict([  # person, position 2
-    ('1', 'first person'),
-    ('2', 'second person'),
-    ('3', 'third person')])  # type: Dict[str, str]
+PERSON = dict(
+    [  # person, position 2
+        ("1", "first person"),
+        ("2", "second person"),
+        ("3", "third person"),
+    ]
+)  # type: Dict[str, str]
 
-NUMBER = dict([  # Grammatical number, position 3
-    ('S', 'singular'),
-    ('P', 'plural')])  # type: Dict[str, str]
+NUMBER = dict(
+    [("S", "singular"), ("P", "plural")]  # Grammatical number, position 3
+)  # type: Dict[str, str]
 
-TENSE = dict([  # Verb tense, position 4
-    ('P', 'present'),
-    ('I', 'imperfect'),
-    ('R', 'perfect'),
-    ('L', 'pluperfect'),
-    ('T', 'future perfect'),
-    ('F', 'future')])  # type: Dict[str, str]
+TENSE = dict(
+    [  # Verb tense, position 4
+        ("P", "present"),
+        ("I", "imperfect"),
+        ("R", "perfect"),
+        ("L", "pluperfect"),
+        ("T", "future perfect"),
+        ("F", "future"),
+    ]
+)  # type: Dict[str, str]
 
-MOOD = dict([  # Verb mood, position 5
-    ('I', 'indicative'),
-    ('S', 'subjunctive'),
-    ('N', 'infinitive'),
-    ('M', 'imperative'),
-    ('P', 'participle'),
-    ('D', 'gerund'),
-    ('G', 'gerundive')])  # type: Dict[str, str]
+MOOD = dict(
+    [  # Verb mood, position 5
+        ("I", "indicative"),
+        ("S", "subjunctive"),
+        ("N", "infinitive"),
+        ("M", "imperative"),
+        ("P", "participle"),
+        ("D", "gerund"),
+        ("G", "gerundive"),
+    ]
+)  # type: Dict[str, str]
 
-VOICE = dict([  # Verb voice, position 6
-    ('A', 'active'),
-    ('P', 'passive'),
-    ('D', 'deponent')])  # type: Dict[str, str]
+VOICE = dict(
+    [("A", "active"), ("P", "passive"), ("D", "deponent")]  # Verb voice, position 6
+)  # type: Dict[str, str]
 
-GENDER = dict([  # Gender, position 7
-    ('M', 'masculine'),
-    ('F', 'feminine'),
-    ('N', 'neuter')])  # type: Dict[str, str]
+GENDER = dict(
+    [("M", "masculine"), ("F", "feminine"), ("N", "neuter")]  # Gender, position 7
+)  # type: Dict[str, str]
 
-CASE = dict([  # Grammatical case, position 8
-    ('N', 'nominative'),
-    ('G', 'genitive'),
-    ('D', 'dative'),
-    ('A', 'accusative'),
-    ('V', 'vocative'),
-    ('B', 'ablative'),
-    ('L', 'locative')])  # type: Dict[str, str]
+CASE = dict(
+    [  # Grammatical case, position 8
+        ("N", "nominative"),
+        ("G", "genitive"),
+        ("D", "dative"),
+        ("A", "accusative"),
+        ("V", "vocative"),
+        ("B", "ablative"),
+        ("L", "locative"),
+    ]
+)  # type: Dict[str, str]
 
-DEGREE = dict([  # Degree, position 9
-    ('P', 'apositive'),
-    ('C', 'comparative'),
-    ('S', 'superlative')])  # type: Dict[str, str]
+DEGREE = dict(
+    [  # Degree, position 9
+        ("P", "apositive"),
+        ("C", "comparative"),
+        ("S", "superlative"),
+    ]
+)  # type: Dict[str, str]
 
 
 def expand_postag(tag: str) -> List[str]:
@@ -87,9 +114,7 @@ def expand_postag(tag: str) -> List[str]:
 
     """
     postaglist = (POS, PERSON, NUMBER, TENSE, MOOD, VOICE, GENDER, CASE, DEGREE)
-    return [postaglist[idx][char]
-            for idx, char in enumerate(tag)
-            if char != '-']
+    return [postaglist[idx][char] for idx, char in enumerate(tag) if char != "-"]
 
 
 def _get_key_from_val(mydict, the_val):
@@ -115,8 +140,8 @@ def to_postag(description: str):
     'A-P---FB-'
 
     """
-    chars = ['-'] * 9
-    for item in description.split(','):
+    chars = ["-"] * 9
+    for item in description.split(","):
         item = item.strip().lower()
         if item in POS.values():
             chars[0] = _get_key_from_val(POS, item)
@@ -136,4 +161,4 @@ def to_postag(description: str):
             chars[7] = _get_key_from_val(CASE, item)
         if item in DEGREE.values():
             chars[8] = _get_key_from_val(DEGREE, item)
-    return ''.join(chars)
+    return "".join(chars)

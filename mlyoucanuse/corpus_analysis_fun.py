@@ -1,3 +1,16 @@
+# Copyright 2020 Todd Cook
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#  http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
 """`corpus_analysis_fun.py` - methods for analysing a corpus"""
 import logging
 import statistics
@@ -11,13 +24,14 @@ from sklearn.preprocessing import MinMaxScaler
 
 from mlyoucanuse.word_trie import WordTrie
 
-__author__ = 'Todd Cook <todd.g.cook@gmail.com>'
-__license__ = 'MIT License'
 
 LOG = logging.getLogger(__name__)
 LOG.addHandler(logging.NullHandler())
 
-def get_word_lengths(corpus_reader: CorpusReader, max_word_length: int = 100) -> Dict[int, int]:
+
+def get_word_lengths(
+    corpus_reader: CorpusReader, max_word_length: int = 100
+) -> Dict[int, int]:
     """
     Get the word length/frequency distribution
     :param corpus_reader:
@@ -26,7 +40,7 @@ def get_word_lengths(corpus_reader: CorpusReader, max_word_length: int = 100) ->
     """
     word_lengths = Counter()  # type: Dict[int, int]
     files = corpus_reader.fileids()
-    for file in tqdm(files, total=len(files), unit='files'):
+    for file in tqdm(files, total=len(files), unit="files"):
         for word in corpus_reader.words(file):
             word_length = len(word)
             if word.isalpha() and word_length <= max_word_length:
@@ -34,8 +48,9 @@ def get_word_lengths(corpus_reader: CorpusReader, max_word_length: int = 100) ->
     return word_lengths
 
 
-def get_samples_for_lengths(corpus_reader: CorpusReader,
-                            num_samples: int = 5) -> Dict[int, List[str]]:
+def get_samples_for_lengths(
+    corpus_reader: CorpusReader, num_samples: int = 5
+) -> Dict[int, List[str]]:
     """
     Get a number of sample words for each word length; good for sanity checking.
     :param corpus_reader:
@@ -44,13 +59,14 @@ def get_samples_for_lengths(corpus_reader: CorpusReader,
     """
     samples_lengths = defaultdict(list)  # type: Dict[int, List[str]]
     files = corpus_reader.fileids()
-    for file in tqdm(files, total=len(files), unit='files'):
+    for file in tqdm(files, total=len(files), unit="files"):
         for word in corpus_reader.words(file):
             if word.isalpha():
                 word_length = len(word)
                 samples_lengths[word_length].append(word)
-                samples_lengths[word_length] = \
-                    samples_lengths[word_length][:num_samples]  # trim to num_samples size
+                samples_lengths[word_length] = samples_lengths[word_length][
+                    :num_samples
+                ]  # trim to num_samples size
     return samples_lengths
 
 
@@ -62,7 +78,7 @@ def get_char_counts(corpus_reader: CorpusReader) -> Dict[str, int]:
     """
     char_counter = Counter()  # type: Dict[str, int]
     files = corpus_reader.fileids()
-    for file in tqdm(files, total=len(files), unit='files'):
+    for file in tqdm(files, total=len(files), unit="files"):
         for word in corpus_reader.words(file):
             if word.isalpha():
                 for car in word:
@@ -70,9 +86,9 @@ def get_char_counts(corpus_reader: CorpusReader) -> Dict[str, int]:
     return char_counter
 
 
-def get_split_words(corpus_reader: CorpusReader,
-                    word_trie: WordTrie,
-                    max_word_length: int = 15) -> Dict[str, List[str]]:
+def get_split_words(
+    corpus_reader: CorpusReader, word_trie: WordTrie, max_word_length: int = 15
+) -> Dict[str, List[str]]:
     """
     Search a corpus for improperly joined words, defined by a discrete trie model.
     return a dictionary, keys are files, and values are lists of tuples of the split words.
@@ -84,7 +100,7 @@ def get_split_words(corpus_reader: CorpusReader,
     """
     split_words = defaultdict(list)  # type: Dict[str, List[str]]
     files = corpus_reader.fileids()
-    for file in tqdm(files, total=len(files), unit='files'):
+    for file in tqdm(files, total=len(files), unit="files"):
         for word in corpus_reader.words(file):
             if len(word) > max_word_length and not word_trie.has_word(word):
                 word_list = word_trie.extract_word_pair(word)
@@ -111,9 +127,9 @@ def get_mean_stdev(mycounter: Dict[int, int]) -> Tuple[float, float]:
     return round(statistics.mean(all_lens), 3), round(statistics.stdev(all_lens), 3)
 
 
-def create_probability_dist(mycounter: Dict[str, int],
-                            min_val: float = 0.000001,
-                            max_val: float = 0.999999) -> Dict[str, int]:
+def create_probability_dist(
+    mycounter: Dict[str, int], min_val: float = 0.000001, max_val: float = 0.999999
+) -> Dict[str, int]:
     """
     Given a Counter object, create a dictionary of normalized probabilities.
     The default min value and max values are configurable. See:
@@ -137,5 +153,7 @@ def create_probability_dist(mycounter: Dict[str, int],
     counts = np.array([tmp / float(total_words) for tmp in mycounter.values()])
     min_max_scaler = MinMaxScaler(feature_range=(min_val, max_val))
     scaled_data = min_max_scaler.fit_transform(counts.reshape(-1, 1))
-    word_probabilities = {words[idx]: val[0] for idx, val in enumerate(scaled_data.tolist())}
+    word_probabilities = {
+        words[idx]: val[0] for idx, val in enumerate(scaled_data.tolist())
+    }
     return word_probabilities
