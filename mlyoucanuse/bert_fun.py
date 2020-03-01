@@ -41,16 +41,16 @@ def get_word_probabilities(
     :param bert_tokenizer: a BertTokenizer (preferably cased, large)
     :return: a Tuple of values: original token string, word as subtokens, subtoken ids
 
-    ## OOME on circleci :-(
-    # >>> from transformers import BertTokenizer, BertForMaskedLM
-    # >>> bert_tokenizer = BertTokenizer.from_pretrained('bert-large-cased')
-    # >>> bert_model = BertForMaskedLM.from_pretrained("bert-large-cased-whole-word-masking")
-    # >>> _ = bert_model.eval()
-    # >>> get_word_probabilities(sentence="I am psychologist.",
-    # ... bert_tokenizer=bert_tokenizer, bert_model=bert_model)
-    # (('I', ('I',), (0.9858765006065369,)), ('am', ('am',), (0.6945590376853943,)), \
-# ('psychologist', ('psychologist',), (4.13914813179872e-06,)), \
-# ('.', ('.',), (0.8961634635925293,)))
+    # Doctest skipped because OOME on circleci medium image :-(
+    >>> from transformers import BertTokenizer, BertForMaskedLM  # doctest: +SKIP
+    >>> bert_tokenizer = BertTokenizer.from_pretrained('bert-large-cased') # doctest: +SKIP
+    >>> bert_model = BertForMaskedLM.from_pretrained("bert-large-cased-whole-word-masking") # doctest: +SKIP
+    >>> _ = bert_model.eval() # doctest: +SKIP
+    >>> get_word_probabilities(sentence="I am psychologist.", # doctest: +SKIP
+    ... bert_tokenizer=bert_tokenizer, bert_model=bert_model)
+    (('I', ('I',), (0.9858765006065369,)), ('am', ('am',), (0.6945590376853943,)), \
+('psychologist', ('psychologist',), (4.13914813179872e-06,)), \
+('.', ('.',), (0.8961634635925293,)))
 
     """
     whole_tokens = word_tokenize(sentence)
@@ -147,15 +147,15 @@ def get_alternate_words(
     :param top: the number of high probability words you desire.
     :return: a tuple list of tuples of a word and it's probability.
 
-    ## OOME on circleci :-(
-    # >>> from transformers import BertTokenizer, BertForMaskedLM
-    # >>> bert_tokenizer = BertTokenizer.from_pretrained('bert-large-cased')
-    # >>> bert_model = BertForMaskedLM.from_pretrained("bert-large-cased-whole-word-masking")
-    # >>> _ = bert_model.eval()
-    # >>> get_alternate_words(sentence="We can order then directly from the web.",
-    # ... word_index=3, bert_tokenizer=bert_tokenizer, bert_model=bert_model, top=5)
-#     (('them', 0.2891930639743805), ('it', 0.2877180278301239), ('these', 0.034848809242248535), \
-# ('everything', 0.03310466185212135), ('this', 0.028820807114243507))
+    # Doctest skipped because OOME on circleci medium image :-(
+    >>> from transformers import BertTokenizer, BertForMaskedLM # doctest: +SKIP
+    >>> bert_tokenizer = BertTokenizer.from_pretrained('bert-large-cased') # doctest: +SKIP
+    >>> bert_model = BertForMaskedLM.from_pretrained("bert-large-cased-whole-word-masking") # doctest: +SKIP
+    >>> _ = bert_model.eval() # doctest: +SKIP
+    >>> get_alternate_words(sentence="We can order then directly from the web.", # doctest: +SKIP
+    ... word_index=3, bert_tokenizer=bert_tokenizer, bert_model=bert_model, top=5) # doctest: +SKIP
+    (('them', 0.2891930639743805), ('it', 0.2877180278301239), ('these', 0.034848809242248535), \
+('everything', 0.03310466185212135), ('this', 0.028820807114243507))
 
     """
     whole_tokens = word_tokenize(sentence)
@@ -227,14 +227,14 @@ def get_word_in_sentence_probability(
     :return: a tuple of tuples of (token:str, probability:float) and the probability value
     represents the softmax value.
 
-    ## OOME on circleci :-(
-    # >>> from transformers import BertTokenizer, BertForMaskedLM
-    # >>> bert_tokenizer = BertTokenizer.from_pretrained('bert-large-cased')
-    # >>> bert_model = BertForMaskedLM.from_pretrained("bert-large-cased-whole-word-masking")
-    # >>> _ = bert_model.eval()
-    # >>> get_word_in_sentence_probability(sentence="Yoga brings peace and vitality to you life.",
-    # ... word='your', bert_model=bert_model, bert_tokenizer=bert_tokenizer, word_index=6)
-    # (0.004815567284822464,)
+    # Doctest skipped because OOME on circleci medium image :-(
+    >>> from transformers import BertTokenizer, BertForMaskedLM # doctest: +SKIP
+    >>> bert_tokenizer = BertTokenizer.from_pretrained('bert-large-cased') # doctest: +SKIP
+    >>> bert_model = BertForMaskedLM.from_pretrained("bert-large-cased-whole-word-masking") # doctest: +SKIP
+    >>> _ = bert_model.eval() # doctest: +SKIP
+    >>> get_word_in_sentence_probability(sentence="Yoga brings peace and vitality to you life.", # doctest: +SKIP
+    ... word='your', bert_model=bert_model, bert_tokenizer=bert_tokenizer, word_index=6)
+    (0.004815567284822464,)
 
     """
     whole_tokens = word_tokenize(sentence)
