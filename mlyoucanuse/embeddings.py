@@ -200,10 +200,11 @@ def load_embeddings(
         try:
             keyed_vectors = models.KeyedVectors.load(embedding_file)
         except pickle.UnpicklingError:
-            LOG.exception("failure using KeyedVectores.load, trying word2vec format")
+            LOG.info("Problem using KeyedVectors.load, trying word2vec format")
             keyed_vectors = models.KeyedVectors.load_word2vec_format(
                 embedding_file, binary=True, unicode_errors="replace"
             )
+            LOG.info("Success!")
         for word in keyed_vectors.vocab:
             embeddings_index[word] = keyed_vectors[word]
     LOG.info("Found %s word vectors.", len(embeddings_index))
