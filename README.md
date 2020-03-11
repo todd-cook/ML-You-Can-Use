@@ -71,12 +71,13 @@ mkdir p3
 * [16. Down sample or not](wikipedia_corpus_processing/down_sample_or_not.ipynb)
 ### Quality Embeddings 
 * [17. Generate English Wikipedia word vector](quality_embeddings/generate_latin_word_vector.ipynb) 
-* [18. Generate Latin word vector](quality_embeddings/generate_latin_word_vector.ipynb) 
+* [18. Generate Latin word vector](quality_embeddings/generate_latin_word_vector.ipynb)
+* [19. The Case for Using an Embedding Encoder](quality_embeddings/embedding_encoder.ipynb) 
 ### Computer Vision - Object Detection
-* [19. Object detection as a multivariable regression using a custom Convnet](computer_vision_object_detection/train_noisy_circle_detector.ipynb)
-* [20. Assessing the Noisy Circle detector](computer_vision_object_detection/assess_noisy_circle_detector.ipynb)
+* [20. Object detection as a multivariable regression using a custom Convnet](computer_vision_object_detection/train_noisy_circle_detector.ipynb)
+* [21. Assessing the Noisy Circle detector](computer_vision_object_detection/assess_noisy_circle_detector.ipynb)
 ### Summarizing Texts
-* [21. Assessing Headline Generation](summarization/neural_headline_generation_metrics.ipynb)
+* [22. Assessing Headline Generation](summarization/neural_headline_generation_metrics.ipynb)
 
 # References and Acknowledgements    
 * [A Sensitivity Analysis of (and Practitioners' Guide to) Convolutional Neural Networks for Sentence Classification by Ye Zhang, Byron Wallace](https://arxiv.org/abs/1510.03820)
@@ -90,3 +91,4 @@ mkdir p3
 * [Convolutional Neural Networks for Sentence Classification by Yoon Kim](https://arxiv.org/abs/1408.5882)
 * [The Unreasonable Effectiveness of Transformer Language Models in Grammatical Error Correction by Dimitris Alikaniotis, Vipul Raheja](https://arxiv.org/abs/1906.01733)    
 * [BERT has a Mouth, and It Must Speak: BERT as a Markov Random Field Language Model by Alex Wang, Kyunghyun Cho](https://arxiv.org/pdf/1902.04094.pdf)
+* [An Exploration of Word Embedding Initialization in Deep-Learning Tasks by Tom Kocmi, Ondřej Bojar](https://arxiv.org/pdf/1711.09160.pdf)
