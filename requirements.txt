@@ -34,3 +34,4 @@ black>=19.10b0
 cleanlab>=0.1.1
 fasttext>=0.9.1
 wikidata>=0.6.1
+wandb
