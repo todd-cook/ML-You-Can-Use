@@ -31,3 +31,6 @@ pandas>=0.25.3
 transformers>=2.4.1
 seaborn>=0.10.0
 black>=19.10b0
+cleanlab>=0.1.1
+fasttext>=0.9.1
+wikidata>=0.6.1
