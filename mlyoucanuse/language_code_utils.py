@@ -18,20 +18,23 @@ def fast_text_prediction_to_three_letter_language_code(
 
     >>> import numpy as np
     >>> res = (('__label__eng', '__label__ron', '__label__vie'),
-    ... np.asarray([9.99590933e-01, 2.40980095e-04, 1.49953354e-04])
-    ... ) # or res = mdl.predict('The quick brown fox', k=3)
+    ... np. array([9.99590933e-01, 2.40980095e-04, 1.49953354e-04]))
     >>> fast_text_prediction_to_three_letter_language_code(res)
     ['eng', 'ron', 'vie']
-    >>> res = (('__label__eng',), np.array([0.99959093])
-    ... ) # or res = mdl.predict('The quick brown fox')
+    >>> res = (('__label__oci',), np.array([0.88126439]))
     >>> fast_text_prediction_to_three_letter_language_code(res)
-    'eng'
+    'oci'
+    >>> res = ([['__label__oci'], ['__label__tlh']], np.array([[0.88126439], [0.99645472]]))
+    >>> fast_text_prediction_to_three_letter_language_code(res)
+    ['oci', 'tlh']
 
     """
     if len(res[0]) == 1:
         label, _ = res
         return label[0][-3:]
     labels, _ = res
+    if labels and isinstance(labels[0], list):
+        labels = [tmp[0] for tmp in labels]
     return [tmp[-3:] for tmp in labels]
 
 
@@ -50,12 +53,17 @@ def fast_text_prediction_to_two_letter_language_code(
     ... ) # or res = mdl.predict('The quick brown fox')
     >>> fast_text_prediction_to_two_letter_language_code(res)
     'en'
+    >>> res = ([['__label__oci'], ['__label__tlh']], np.array([[0.88126439], [0.99645472]]))
+    >>> fast_text_prediction_to_two_letter_language_code(res)
+    ['oc', 'Klingon']
 
     """
     if len(res[0]) == 1:
         label, _ = res
         return _get_name(label[0])
     labels, _ = res
+    if labels and isinstance(labels[0], list):
+        labels = [tmp[0] for tmp in labels]
     return [_get_name(tmp) for tmp in labels]
 
 

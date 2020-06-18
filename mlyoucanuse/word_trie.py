@@ -13,8 +13,7 @@
 # limitations under the License.
 """`word_trie.py` - A trie that tracks word constructions."""
 import logging
-from typing import List, Dict  # pylint: disable=unused-import
-
+from typing import List, Dict, Tuple  # pylint: disable=unused-import
 
 LOG = logging.getLogger(__name__)
 LOG.addHandler(logging.NullHandler())
@@ -41,7 +40,7 @@ class WordTrie:
                 curr_root[car] = {}  # type: ignore
             curr_root = curr_root[car]  # type: ignore
         if not curr_root.get(self.eot):
-            curr_root[self.eot] = ""
+            curr_root[self.eot] = self.eot
 
     def add_all(self, words: List[str]) -> None:
         """
@@ -52,35 +51,31 @@ class WordTrie:
         for word in words:
             self.add(word)
 
-    def has_word(self, word: str) -> bool:
+    def has_word(self, word: str) -> Tuple[bool, bool]:
         """
         Determine whether or not the exact word was pushed into this tree
         :param word: a string
-        :return: Boolean
+        :return:  Tuple[Boolean, Boolean] - in_trie, is_terminal
 
         >>> mytrie = WordTrie()
         >>> mytrie.add('todd')
         >>> mytrie.has_word('todd')
-        True
+        (True, True)
         >>> mytrie.has_word('to')
-        False
+        (True, False)
+        >>> mytrie.has_word('taco')
+        (False, False)
+
         """
         curr_root = self.root
-        for idx, char in enumerate(word):
-            if char in curr_root:
-                if idx + 1 == len(word):
-                    terminal = curr_root.get(char)
-                    if terminal:
-                        if self.eot in terminal:
-                            return True
-                    return False
-                curr_root = curr_root[char]  # type: ignore
-            else:
-                curr_root[char] = dict()  # type: ignore
-                curr_root = curr_root[char]  # type: ignore
-        if curr_root.get(self.eot):
-            return True
-        return False
+        depth = 0
+        for car in word:
+            if car in curr_root:
+                depth += 1
+                curr_root = curr_root[car]  # type: ignore
+        in_tree = depth == len(word)
+        is_terminal = self.eot in curr_root and in_tree
+        return (in_tree, is_terminal)
 
     def extract_word_pair(self, long_word: str, min_word_length=4) -> List[str]:
         """
@@ -99,11 +94,83 @@ class WordTrie:
         ['tacocat']
 
         """
-        if len(long_word) < min_word_length * 2 or self.has_word(long_word):
+        _, is_terminal = self.has_word(long_word)
+        if len(long_word) < min_word_length * 2 or is_terminal:
             return [long_word]
         for idx in range(min_word_length, len(long_word) - min_word_length + 1):
             word1 = long_word[:idx]
             word2 = long_word[idx:]
-            if self.has_word(word1) and self.has_word(word2):
+            _, is_terminal = self.has_word(word1)
+            _, is_terminal2 = self.has_word(word2)
+            if is_terminal and is_terminal2:
                 return [word1, word2]
         return [long_word]
+
+
+class TupleTrie:
+    """A trie that tracks parts and wholes of data;
+    typically letters and when letter combinations become complete words.
+    """
+
+    def __init__(self, word_ending_marker: str = None):
+        self.root = dict()  # type: Dict[str, str]
+        if not word_ending_marker:
+            word_ending_marker = chr(3)
+        self.eot = word_ending_marker  # End of transmission, to mark word endings
+
+    def add(self, tup: Tuple[str, ...]) -> None:
+        """
+        Add a tuple to the trie
+        :param tup:
+        :return: None
+        """
+        curr_root = self.root
+        for car in tup:
+            if not curr_root.get(car):
+                curr_root[car] = {}  # type: ignore
+            curr_root = curr_root[car]  # type: ignore
+        if not curr_root.get(self.eot):
+            curr_root[self.eot] = self.eot  # ""
+
+    def add_all(self, words: List[Tuple[str, ...]]) -> None:
+        """
+        Convenience method
+        :param words:
+        :return:
+        """
+        for tup in words:
+            self.add(tup)
+
+    def has_tuple(self, tup: Tuple[str, ...]) -> Tuple[bool, bool]:
+        """
+        Determine whether or not the exact tuple was pushed into this tree
+        :param word: a string
+        :return: Tuple[Boolean, Boolean] - in_trie, is_terminal
+
+        >>> mytrie = TupleTrie()
+        >>> mytrie.add( ('quick', 'brown', 'fox'))
+        >>> mytrie.has_tuple( ('quick', 'brown', 'fox', 'farted'))
+        (False, False)
+        >>> mytrie.has_tuple( ('quick', 'brown', 'fox'))
+        (True, True)
+        >>> mytrie.add( ('todd', 'cook'))
+        >>> mytrie.has_tuple( ('todd', 'cook'))
+        (True, True)
+        >>> mytrie.add( ('quick', 'brown', 'fox', 'jumped'))
+        >>> mytrie.has_tuple( ('quick', 'brown'))
+        (True, False)
+        >>> mytrie.has_tuple( ('quick', 'brown', 'fart'))
+        (False, False)
+        >>> mytrie.has_tuple( ('quick', 'brown', 'fox', 'jumped'))
+        (True, True)
+
+        """
+        curr_root = self.root
+        depth = 0
+        for word in tup:
+            if word in curr_root:
+                depth += 1
+                curr_root = curr_root[word]  # type: ignore
+        in_tree = depth == len(tup)
+        is_terminal = self.eot in curr_root and in_tree
+        return in_tree, is_terminal

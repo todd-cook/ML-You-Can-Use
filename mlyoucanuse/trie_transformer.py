@@ -78,13 +78,16 @@ class TrieTransformer(BaseEstimator, TransformerMixin):
         :return:
         """
 
-        if self.trie.has_word(long_word):
+        has_word, complete = self.trie.has_word(long_word)
+        if has_word and complete:
             return [long_word]
 
         for idx in range(2, len(long_word) - 1):
             word1 = long_word[:idx]
             word2 = long_word[idx:]
-            if self.trie.has_word(word1) and self.trie.has_word(word2):
+            if False not in list(self.trie.has_word(word1)) + list(
+                self.trie.has_word(word2)
+            ):
                 return [word1, word2]
         if self.save_unseen:
             self.unseen.append(long_word)
@@ -104,23 +107,21 @@ class TrieTransformer(BaseEstimator, TransformerMixin):
             for x in document:
                 tmp_result = self.extract_word_pair(x)
                 if tmp_result:
-                    sentence += self.extract_word_pair(x)
+                    sentence += tmp_result
             results.append(sentence)
-        try:
-            if self.save_unseen and self.save_dir:
-                with open(
-                    os.path.join(
-                        self.save_dir,
-                        "unseen_words.{}.txt".format(
-                            datetime.datetime.now().strftime("%Y.%m.%d")
-                        ),
-                    ),
-                    "wt",
-                    encoding="utf8",
-                ) as writer:
+
+        if self.save_unseen and self.save_dir:
+            full_path = os.path.join(
+                self.save_dir,
+                "unseen_words.{}.txt".format(
+                    datetime.datetime.now().strftime("%Y.%m.%d")
+                ),
+            )
+            try:
+                with open(full_path, "wt", encoding="utf8") as writer:
                     for word in self.unseen:
                         writer.write(word)
                         writer.write("\n")
-        except OSError:
-            LOG.exception("Failure in trying to save unseen words")
+            except OSError:
+                LOG.exception("Failure in trying to save unseen words to %s", full_path)
         return results
