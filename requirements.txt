@@ -36,3 +36,4 @@ fasttext>=0.9.1
 wikidata>=0.6.1
 stanza>=1.0.1
 wikipedia==1.4.0
+wandb
