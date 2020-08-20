@@ -86,6 +86,8 @@ mkdir p3
 * [Assessing the Noisy Circle detector](computer_vision_object_detection/assess_noisy_circle_detector.ipynb)
 ### Summarizing Texts
 * [Assessing Headline Generation](summarization/neural_headline_generation_metrics.ipynb)
+### Searching and Search Relevance
+* [Search Results Relevance using BERT](searching/search_results_relevance_using_BERT.ipynb)
 
 #### References and Acknowledgements    
 * [A Sensitivity Analysis of (and Practitioners' Guide to) Convolutional Neural Networks for Sentence Classification by Ye Zhang, Byron Wallace](https://arxiv.org/abs/1510.03820)
