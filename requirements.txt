@@ -21,7 +21,7 @@ keras==2.3.1
 tensorflow==2.0.0a0
 codecov==2.0.15
 gensim==3.7.1
-torch==1.3.0.post2
+torch==1.4.0
 torchvision==0.2.2.post3
 pydot==1.4.1
 binaryornot==0.4.4
