@@ -4,17 +4,18 @@ cltk==0.1.121
 codecov==2.0.15
 coverage==4.5.2
 gensim==3.7.1
-Keras== 2.3.1
+Keras== 2.4.3
 mypy==0.761
 nltk==3.4.5
 numpy==1.17.2
 pandas==0.25.3
-pylint==2.3.1
+pylint==2.4.4
 pytest==5.2.0
 pytest-cov==2.8.1
 pytest-mypy==0.4.2
-pytest-pylint==0.14.1
+pytest-pylint==0.17
 scikit-learn==0.22.1
+tensorflow==2.3.0
 torch==1.4.0
 tqdm==4.46.1
 transformers==2.8.0

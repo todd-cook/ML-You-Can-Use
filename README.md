@@ -32,7 +32,14 @@ mkdir p3
 
 ``pip install -r requirements.txt``
 
+#### For running all notebook examples
+``pip install -r requirements-dev.txt``
+
+##### Note: some examples will have a conda `environment.yaml` file that you will want to use.
+
 ### Installing Test Corpora
+
+Many notebooks use data that needs to be installed, do so by running the install script.
 
 ``install_corpora.sh``
 
