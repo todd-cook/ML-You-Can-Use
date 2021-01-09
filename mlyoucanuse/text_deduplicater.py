@@ -194,8 +194,9 @@ class TextDeduplicater:
         1
         >>> deduper.add_document('myfile2', doc)
         2
-        >>> sorted(deduper.get_possible_duplicate_doc_names())
-        [('myfile2', 'myfile1')]
+        >>> from itertools import chain
+        >>> sorted(chain.from_iterable(deduper.get_possible_duplicate_doc_names()))
+        ['myfile1', 'myfile2']
 
         """
         col_dicts = [defaultdict(list) for idx in range(self.num_hash_fun)]  # type: ignore

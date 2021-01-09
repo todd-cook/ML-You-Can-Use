@@ -6,7 +6,7 @@ coverage==5.3.1
 gensim==3.8.3
 Keras== 2.4.3
 mypy==0.790
-nltk==3.5
+nltk==3.4.5
 numpy==1.19.5
 pandas>=1.0.0
 pigar==0.10.0
@@ -14,9 +14,10 @@ pylint==2.6.0
 pytest==6.2.1
 pytest-cov==2.10.1
 pytest-mypy==0.8.0
-pytest-pylint==0.17
+pytest-pylint==0.18.0
 scikit-learn==0.24.0
 tensorflow==2.4.0
 torch==1.4.0
 tqdm==4.55.1
 transformers==2.8.0
+lxml==4.6.2
