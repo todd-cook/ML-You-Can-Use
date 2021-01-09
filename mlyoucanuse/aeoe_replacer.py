@@ -32,7 +32,7 @@ class AEOEReplacer:  # pylint: disable=too-few-public-methods
      a ligature representing the Latin diphthong ae. It has been promoted to the full status of a
      letter in the alphabets of some languages, including Danish, Norwegian, Icelandic, and Faroese.
     See: https://en.wikipedia.org/wiki/%C3%86
-     """
+    """
 
     def __init__(self):
         """Initialization for JVReplacer, reads replacement pattern tuple."""

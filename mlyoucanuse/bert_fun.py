@@ -82,11 +82,7 @@ def get_word_probabilities(
             # pylint: disable=not-callable,no-member
             tokens_tensor = torch.tensor([indexed_tokens])
             segments_tensors = torch.tensor(
-                [
-                    torch.zeros(  # type: ignore
-                        len(indexed_tokens), dtype=int
-                    ).tolist()
-                ]
+                [torch.zeros(len(indexed_tokens), dtype=int).tolist()]  # type: ignore
             )
             outputs = bert_model(tokens_tensor, token_type_ids=segments_tensors)
             predictions = softmax(outputs[0].squeeze(0))
@@ -180,11 +176,7 @@ def get_alternate_words(
         # pylint: disable=not-callable,no-member
         tokens_tensor = torch.tensor([indexed_tokens])
         segments_tensors = torch.tensor(
-            [
-                torch.zeros(  # type: ignore
-                    len(indexed_tokens), dtype=int
-                ).tolist()
-            ]
+            [torch.zeros(len(indexed_tokens), dtype=int).tolist()]  # type: ignore
         )
         outputs = bert_model(tokens_tensor, token_type_ids=segments_tensors)
         predictions = softmax(outputs[0].squeeze(0))
@@ -277,11 +269,7 @@ def get_word_in_sentence_probability(
         # pylint: disable=not-callable,no-member
         tokens_tensor = torch.tensor([indexed_tokens])
         segments_tensors = torch.tensor(
-            [
-                torch.zeros(  # type: ignore
-                    len(indexed_tokens), dtype=int
-                ).tolist()
-            ]
+            [torch.zeros(len(indexed_tokens), dtype=int).tolist()]  # type: ignore
         )
         outputs = bert_model(tokens_tensor, token_type_ids=segments_tensors)
         predictions = softmax(outputs[0].squeeze(0))
