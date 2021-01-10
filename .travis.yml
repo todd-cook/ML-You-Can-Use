@@ -7,20 +7,13 @@ cache:
   directories:
     - $HOME/stanza_resources/
     - $HOME/cltk_data/
-    - $HOME/virtualenv/
     - $HOME/.cache/pip
 
-addons:
-  apt:
-    packages:
-      - graphviz
-
 before_install:
-  - pip install --upgrade pip
+  - python -m pip install --upgrade pip
 
 install:
-  - pip install -r requirements.txt
+  - pip install --user -r requirements.txt --use-feature=2020-resolver
 
 script:
-  - python -m pytest --doctest-modules --cov-report=term --mypy --cov-config=.coveragerc --pylint -vv \
-    mlyoucanuse/ --cov=mlyoucanuse/
+  - pytest --doctest-modules --cov-report=term --mypy --cov-config=.coveragerc --pylint -vv --cov=mlyoucanuse
