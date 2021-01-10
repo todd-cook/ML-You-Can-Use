@@ -1,14 +1,15 @@
 # ML-You-Can-Use
-[![TravisCI](https://travis-ci.com/todd-cook/ML-You-Can-Use.svg?branch=master)] [![CircleCI](https://circleci.com/gh/todd-cook/ML-You-Can-Use.svg?style=svg)](https://circleci.com/gh/todd-cook/ML-You-Can-Use) [![codecov.io](http://codecov.io/github/todd-cook/ML-You-Can-Use/coverage.svg?branch=master)](http://codecov.io/github/todd-cook/ML-You-Can-Use?branch=master)
+[![Build Status](https://travis-ci.com/todd-cook/ML-You-Can-Use.svg?branch=master)](https://travis-ci.com/todd-cook/ML-You-Can-Use) [![CircleCI](https://circleci.com/gh/todd-cook/ML-You-Can-Use.svg?style=svg)](https://circleci.com/gh/todd-cook/ML-You-Can-Use) [![codecov.io](http://codecov.io/github/todd-cook/ML-You-Can-Use/coverage.svg?branch=master)](http://codecov.io/github/todd-cook/ML-You-Can-Use?branch=master)
 
 Practical Machine Learning and Natural Language Processing with examples.
 
 ## Featuring
-* Interesting applications ML, NLP, Computer Vision
+* Interesting applications of ML, NLP, and Computer Vision
 * Practical demonstration notebooks
 * Reproducible experiments
 * Illustrated best practices:
     * Code extracted from notebooks for:
+        * automatic formatting with Black
         * Type checking via MyPy annotations
         * Linting via Pylint
         * Doctests whenever possible
