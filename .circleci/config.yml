@@ -32,22 +32,17 @@ jobs:
       - run:
           name: install dependencies
           command: |
-            python -m venv venv
-            . venv/bin/activate
             pip install --upgrade pip
             pip install -r requirements.txt
-            python install_corpora.py
-            python -m nltk.downloader all
 
       - save_cache:
           paths:
-            - ./venv
+            - .
           key: v1-dependencies-{{ checksum "requirements.txt" }}
 
       - run:
           name: run tests
           command: |
-            . venv/bin/activate
             python -m  pytest --doctest-modules --cov-report=term --mypy --cov-config=.coveragerc --pylint mlyoucanuse/ --cov=mlyoucanuse/
             codecov
 
