@@ -1,0 +1,25 @@
+language: python
+
+python:
+  - "3.8.7"
+
+cache:
+  directories:
+    - $HOME/stanza_resources/
+    - $HOME/cltk_data/
+    - $HOME/virtualenv/
+    - $HOME/.cache/pip
+
+addons:
+  apt:
+    packages:
+      - graphviz
+
+before_install:
+  - pip install --upgrade pip
+
+install:
+  - pip install -r requirements.txt
+
+script:
+  - ./runUnitTest.sh
