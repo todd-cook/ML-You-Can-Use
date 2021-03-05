@@ -47,6 +47,8 @@ ANGULAR_BRACKETS = re.compile(r"([a-zA-Z]+)?<[a-zA-Z\s]+>([,\?\.a-zA-Z]+)?")
 SQUARE_BRACKETS = re.compile(r"\[[^\]]+\]")
 OBELIZED_WORDS = re.compile(r"†[^†]+†")
 OBELIZED_WORD = re.compile(r"†[^\s]+\s")
+OBELIZED_PLUS_WORDS = re.compile(r"[\+][^\+]+[\+]")
+OBELIZED_PLUS_WORD = re.compile(r"[\+][^\s]+\s")
 HYPHENATED = re.compile(r"\s[^-]+-[^-]+\s")
 
 
@@ -234,9 +236,16 @@ def swallow_obelized_words(text):
     'tu Fauonium  dicas'
     >>> swallow_obelized_words("tu Fauonium †asinium dicas")
     'tu Fauonium dicas'
+    >>> swallow_obelized_words("meam +similitudinem+")
+    'meam'
+    >>> swallow_obelized_words("mea +ratio non habet" )
+    'mea non habet'
+
     """
     text = swallow(text, OBELIZED_WORDS)
-    return swallow(text, OBELIZED_WORD)
+    text = swallow(text, OBELIZED_WORD)
+    text = swallow(text, OBELIZED_PLUS_WORDS)
+    return swallow(text, OBELIZED_PLUS_WORD)
 
 
 def disappear_round_brackets(text):

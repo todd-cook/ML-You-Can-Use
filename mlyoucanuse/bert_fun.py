@@ -287,7 +287,8 @@ def get_word_in_sentence_probability(
 
 
 def sum_log_probabilities(
-    results: Tuple[Tuple[str, Tuple[str, ...], Tuple[float, ...]]]
+    results: Tuple[Tuple[str, Tuple[str, ...], Tuple[float, ...]]],
+    boost_factor: int = 100,
 ) -> float:
     """
     Get the sum of the log probabilities for a sentence provided by a BERT model.
@@ -298,6 +299,8 @@ def sum_log_probabilities(
 
     :param results: a tuple collection of tuples string, strings, floats; representing
     the original word, the subword tokens--if any, and the probabilities of the second strings.
+    :param boost_factor: a integer of how much to boost the raw probability; useful for
+    prettifying the results and avoiding negative probabilities. To negate the effect, pass 1.
     :return: a float of the probability, which should be in the range of 0-100, usually.
 
     >>> sum_log_probabilities((('I', ('I',), (0.9993333220481873,)),
@@ -309,4 +312,4 @@ def sum_log_probabilities(
 
     """
     _, _, data = zip(*results)
-    return sum([math.log(tmp * 100) for tmp in chain.from_iterable(data)])  # type: ignore
+    return sum([math.log(tmp * boost_factor) for tmp in chain.from_iterable(data)])  # type: ignore
