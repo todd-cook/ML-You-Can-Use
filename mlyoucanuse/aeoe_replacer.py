@@ -35,7 +35,7 @@ class AEOEReplacer:  # pylint: disable=too-few-public-methods
     """
 
     def __init__(self):
-        """Initialization for JVReplacer, reads replacement pattern tuple."""
+        """Initialization for AEOEReplacer, reads replacement pattern tuple."""
         patterns = [(r"œ", "oe"), (r"æ", "ae"), (r"Œ", "OE"), (r"Æ", "AE")]
         self.patterns = [(re.compile(regex), repl) for (regex, repl) in patterns]
 

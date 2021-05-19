@@ -89,6 +89,7 @@ Many notebooks use data that needs to be installed, do so by running the install
 * [Generating an English Wikipedia word vector](quality_embeddings/generate_latin_word_vector.ipynb) 
 * [Generating a Latin word vector](quality_embeddings/generate_latin_word_vector.ipynb)
 * [The Case for Using an Embedding Encoder](quality_embeddings/embedding_encoder.ipynb) 
+* [Sentence Embeddings - A simple but effective baseline - using Seneca](quality_embeddings/sentence_similarities_seneca.ipynb)
 ### Computer Vision - Object Detection
 * [Object detection as a multivariable regression using a custom Convnet](computer_vision_object_detection/train_noisy_circle_detector.ipynb)
 * [Assessing the Noisy Circle detector](computer_vision_object_detection/assess_noisy_circle_detector.ipynb)

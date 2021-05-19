@@ -154,13 +154,15 @@ def read_text_embeddings(
     embeddings_index = []  # type: List[ ndarray]
     word_positions = {}  # Type: Dict[str, int]
     with open(embedding_file) as the_file:
+        subtract_header = 0
         for idx, line in enumerate(the_file):
-            # if header, skip first line
             values = line.rsplit(maxsplit=embedding_dimensions)
+            if len(values) == 2: # if header, skip first line
+                subtract_header =1
+                continue
             word = values[0]
-            word_positions[word] = idx
+            word_positions[word] = idx - subtract_header
             matrix_row = np.asarray(values[1:], dtype="float32")
-            assert embedding_dimensions == len(matrix_row)
             embeddings_index.append(matrix_row)
     return word_positions, embeddings_index
 

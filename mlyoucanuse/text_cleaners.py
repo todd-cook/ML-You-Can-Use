@@ -42,7 +42,7 @@ BRACE_STRIP = re.compile(r"{[^}]+}")
 NUMERALS = re.compile(r"[0-9]+")
 PUNCT = re.compile(r"[\\/':;,!\?\._『-]+")
 QUOTES = re.compile(r'["”“]+')
-# we will extact content between brackets, it is editorial
+# we will extract content between brackets, it is editorial
 ANGULAR_BRACKETS = re.compile(r"([a-zA-Z]+)?<[a-zA-Z\s]+>([,\?\.a-zA-Z]+)?")
 SQUARE_BRACKETS = re.compile(r"\[[^\]]+\]")
 OBELIZED_WORDS = re.compile(r"†[^†]+†")
@@ -117,72 +117,102 @@ def drop_punct(text):
 
 
 # pylint: disable=too-many-statements
-def normalize_accents(text):
+def normalize_accents(text:str)->str:
     """
     Remove accents
-    :param text:
-    :return:
+    :param text: text with undesired accents
+    :return: clean text
+
+    >>> normalize_accents('suspensám')
+    'suspensam'
+    >>> normalize_accents('quăm')
+    'quam'
+    >>> normalize_accents('aegérrume')
+    'aegerrume'
+    >>> normalize_accents('ĭndignu')
+    'indignu'
+    >>> normalize_accents('îs')
+    'is'
+    >>> normalize_accents('óccidentem')
+    'occidentem'
+    >>> normalize_accents('frúges')
+    'fruges'
+
     """
-    text = text.replace("í", "i")
-    text = text.replace("á", "a")  # suspensám
-    text = text.replace("é", "e")  # aegérrume
-    text = text.replace("ó", "o")  # óccidentem
-    text = text.replace("ú", "u")  # frúges
-    text = text.replace("í", "i")  # ĭndignu
-    text = text.replace("è", "e")
-    text = text.replace("È", "E")
-    text = text.replace("é", "e")
-    text = text.replace("É", "E")
-    text = text.replace("ê", "e")
-    text = text.replace("Ê", "E")
-    text = text.replace("ë", "e")
-    text = text.replace("Ë", "E")
-    text = text.replace("à", "a")
-    text = text.replace("À", "A")
-    text = text.replace("á", "a")
-    text = text.replace("Á", "A")
-    text = text.replace("â", "a")
-    text = text.replace("Â", "A")
-    text = text.replace("ä", "a")
-    text = text.replace("Ä", "A")
-    text = text.replace("î", "i")
-    text = text.replace("Î", "I")
-    text = text.replace("ï", "i")
-    text = text.replace("Ï", "I")
-    text = text.replace("û", "u")
-    text = text.replace("Û", "U")
-    text = text.replace("ù", "u")
-    text = text.replace("Ù", "U")
-    text = text.replace("ü", "u")
-    text = text.replace("Ü", "U")
-    text = text.replace("ÿ", "y")
-    text = text.replace("Ÿ", "Y")
-    text = text.replace("ô", "o")
-    text = text.replace("Ô", "O")
-    text = text.replace("ö", "o")
-    text = text.replace("Ö", "O")
-    text = text.replace("œ", "oe")
-    text = text.replace("Œ", "OE")
-    text = text.replace("ç", "c")
-    text = text.replace("Ç", "C")
-    text = text.replace("ā", "a")
-    text = text.replace("Ā", "A")
-    text = text.replace("ē", "e")
-    text = text.replace("Ē", "E")
-    text = text.replace("ë", "e")
-    text = text.replace("Ë", "E")
-    text = text.replace("ī", "i")
-    text = text.replace("Ī", "I")
-    text = text.replace("ō", "o")
-    text = text.replace("Ō", "O")
-    text = text.replace("ū", "u")
-    text = text.replace("Ū", "U")
-    text = text.replace("Ȳ", "Y")
-    text = text.replace("ȳ", "y")
-    text = text.replace("J", "I")
-    text = text.replace("j", "i")
-    text = text.replace("V", "U")
-    text = text.replace("v", "u")
+    text = text.replace(r"á", "a")  # suspensám
+    text = text.replace(r"Á", "A")
+    text = text.replace(r"á", "a") # Note: this accent is different than the one above!
+    text = text.replace(r"Á", "A")
+    text = text.replace(r"ă", "a")  # 'quăm'
+    text = text.replace(r"Ă", "A")
+    text = text.replace(r"à", "a")
+    text = text.replace(r"À", "A")
+    text = text.replace(r"â", "a")
+    text = text.replace(r"Â", "A")
+    text = text.replace(r"ä", "a")
+    text = text.replace(r"Ä", "A")
+    text = text.replace(r"é", "e")  # aegérrume
+    text = text.replace(r"è", "e")
+    text = text.replace(r"È", "E")
+    text = text.replace(r"é", "e")
+    text = text.replace(r"É", "E")
+    text = text.replace(r"ê", "e")
+    text = text.replace(r"Ê", "E")
+    text = text.replace(r"ë", "e")
+    text = text.replace(r"Ë", "E")
+    text = text.replace(r"ĭ", "i")  # ĭndignu
+    text = text.replace(r"î", "i")  # 'îs'
+    text = text.replace(r"í", "i")
+    text = text.replace(r"í", "i")
+    text = text.replace(r"î", "i")
+    text = text.replace(r"Î", "I")
+    text = text.replace(r"ï", "i")
+    text = text.replace(r"Ï", "I")
+    text = text.replace(r"ó", "o")  # óccidentem
+    text = text.replace(r"ô", "o")
+    text = text.replace(r"Ô", "O")
+    text = text.replace(r"ö", "o")
+    text = text.replace(r"Ö", "O")
+    text = text.replace(r"û", "u")
+    text = text.replace(r"Û", "U")
+    text = text.replace(r"ù", "u")
+    text = text.replace(r"Ù", "U")
+    text = text.replace(r"ü", "u")
+    text = text.replace(r"Ü", "U")
+    text = text.replace(r"ú", "u")  # frúges
+    text = text.replace(r"ÿ", "y")
+    text = text.replace(r"Ÿ", "Y")
+    text = text.replace(r"ç", "c")
+    text = text.replace(r"Ç", "C")
+    text = text.replace(r"ë", "e")
+    text = text.replace(r"Ë", "E")
+    text = text.replace(r"Ȳ", "Y")
+    text = text.replace(r"ȳ", "y")
+    return text
+
+
+def remove_macrons(text:str)->str:
+    """
+    Remove macrons above vowels
+    :param text: text with macronized vowels
+    :return: clean text
+
+    >>> remove_macrons("canō")
+    'cano'
+    >>> remove_macrons("Īuliī")
+    'Iulii'
+
+    """
+    text = text.replace(r"ā", "a")
+    text = text.replace(r"Ā", "A")
+    text = text.replace(r"ē", "e")
+    text = text.replace(r"Ē", "E")
+    text = text.replace(r"ī", "i")
+    text = text.replace(r"Ī", "I")
+    text = text.replace(r"ō", "o")
+    text = text.replace(r"Ō", "O")
+    text = text.replace(r"ū", "u")
+    text = text.replace(r"Ū", "U")
     return text
 
 
