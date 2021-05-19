@@ -157,8 +157,8 @@ def read_text_embeddings(
         subtract_header = 0
         for idx, line in enumerate(the_file):
             values = line.rsplit(maxsplit=embedding_dimensions)
-            if len(values) == 2: # if header, skip first line
-                subtract_header =1
+            if len(values) == 2:  # if header, skip first line
+                subtract_header = 1
                 continue
             word = values[0]
             word_positions[word] = idx - subtract_header

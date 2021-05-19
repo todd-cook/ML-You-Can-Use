@@ -117,7 +117,7 @@ def drop_punct(text):
 
 
 # pylint: disable=too-many-statements
-def normalize_accents(text:str)->str:
+def normalize_accents(text: str) -> str:
     """
     Remove accents
     :param text: text with undesired accents
@@ -141,7 +141,7 @@ def normalize_accents(text:str)->str:
     """
     text = text.replace(r"á", "a")  # suspensám
     text = text.replace(r"Á", "A")
-    text = text.replace(r"á", "a") # Note: this accent is different than the one above!
+    text = text.replace(r"á", "a")  # Note: this accent is different than the one above!
     text = text.replace(r"Á", "A")
     text = text.replace(r"ă", "a")  # 'quăm'
     text = text.replace(r"Ă", "A")
@@ -191,7 +191,7 @@ def normalize_accents(text:str)->str:
     return text
 
 
-def remove_macrons(text:str)->str:
+def remove_macrons(text: str) -> str:
     """
     Remove macrons above vowels
     :param text: text with macronized vowels

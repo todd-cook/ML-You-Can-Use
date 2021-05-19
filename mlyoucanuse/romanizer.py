@@ -17,7 +17,7 @@ import logging
 import re
 from typing import List
 
-from cltk.prosody.latin.scansion_constants import ScansionConstants
+from cltk.prosody.lat.scansion_constants import ScansionConstants
 
 
 LOG = logging.getLogger(__name__)
