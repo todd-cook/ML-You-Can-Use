@@ -17,7 +17,8 @@ import logging
 import re
 from typing import List
 
-from cltk.prosody.lat.scansion_constants import ScansionConstants
+# This is left here to show provenance, but it pulls in too much
+#from cltk.prosody.lat.scansion_constants import ScansionConstants
 
 
 LOG = logging.getLogger(__name__)
@@ -340,11 +341,18 @@ class Romanizer:
             ]
         )  # type: Dict[str, str]
 
-        scansion_constants = ScansionConstants()
+        # This is left here to show provenance, but it pulls in too much
+        # scansion_constants = ScansionConstants()
         self.macrons_to_vowels = dict(
             zip(
-                list(scansion_constants.ACCENTED_VOWELS),
-                list(scansion_constants.VOWELS),
+                list(
+                    "āēīōūȳĀĒĪŌŪȲäÄëËïÏöÖüÜÿŸ"
+                    # scansion_constants.ACCENTED_VOWELS
+                ),
+                list(
+                    "aeiouyAEIOUYäÄëËïÏöÖüÜÿŸ"
+                    # scansion_constants.VOWELS
+                ),
             )
         )  # type: Dict[str, str]
 
