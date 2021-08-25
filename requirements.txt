@@ -16,7 +16,7 @@ pytest-cov==2.10.1
 pytest-mypy==0.8.0
 pytest-pylint==0.18.0
 scikit-learn>=0.24.0
-tensorflow==2.4.0
+tensorflow==2.5.1
 torch>=1.4.0,<1.6
 tqdm==4.55.1
 transformers>=2.8.0
