@@ -65,10 +65,10 @@ Many notebooks use data that needs to be installed, do so by running the install
 * [Training to label with BERT and Cleanlab](labeling_data/training_to_label_with_BERT_and_Cleanlab.ipynb)
 
 ### Modeling Language
-* [Assessing Corpus Quality](probablistic_language_modeling/assessing_corpus_quality.ipynb)
-* [Making a Frequency Distribution](probablistic_language_modeling/make_frequency_distribution.ipynb)
-* [Making a Word Trie Probability Model](probablistic_language_modeling/make_trie_language_model.ipynb)
-* [Word and Sentence Probability using BERT](probablistic_language_modeling/automatic_grammatical_error_corrections_using_BERT_GPT2.ipynb)
+* [Assessing Corpus Quality](probabilistic_language_modeling/assessing_corpus_quality.ipynb)
+* [Making a Frequency Distribution](probabilistic_language_modeling/make_frequency_distribution.ipynb)
+* [Making a Word Trie Probability Model](probabilistic_language_modeling/make_trie_language_model.ipynb)
+* [Word and Sentence Probability using BERT](probabilistic_language_modeling/automatic_grammatical_error_corrections_using_BERT_GPT2.ipynb)
 ### Detecting Duplicate Documents
 * [Merge corpora by detecting and filtering duplicate documents](document_deduplication/find_duplicate_docs.ipynb)
 ### Classifying Texts
