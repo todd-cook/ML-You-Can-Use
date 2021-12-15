@@ -69,6 +69,7 @@ Many notebooks use data that needs to be installed, do so by running the install
 * [Making a Frequency Distribution](probabilistic_language_modeling/make_frequency_distribution.ipynb)
 * [Making a Word Trie Probability Model](probabilistic_language_modeling/make_trie_language_model.ipynb)
 * [Word and Sentence Probability using BERT](probabilistic_language_modeling/automatic_grammatical_error_corrections_using_BERT_GPT2.ipynb)
+* [Comparing Collocation Extraction Methodologies](probabilistic_language_modeling/collocation_extractions.ipynb)
 ### Detecting Duplicate Documents
 * [Merge corpora by detecting and filtering duplicate documents](document_deduplication/find_duplicate_docs.ipynb)
 ### Classifying Texts
