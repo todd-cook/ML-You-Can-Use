@@ -3,7 +3,7 @@ bs4==0.0.1
 dovpanda==0.0.5
 fasttext==0.9.1
 ipykernel==5.1.0
-joblib==0.13.1
+joblib==1.2.0
 jupyter==1.0.0
 lxml==4.3.1
 matplotlib==3.0.2
