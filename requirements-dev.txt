@@ -14,7 +14,7 @@ scikit-image==0.15.0
 seaborn==0.10.0
 stanza==1.0.1
 Shapely==1.6.4.post2
-tensorflow==2.0.0a0
+tensorflow==2.9.3
 torchvision==0.2.2.post3
 yapf==0.25.0
 wandb==0.9.1
